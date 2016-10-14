@@ -1,0 +1,24 @@
+/*Utility Styling*/
+*{
+	font-family:'Raleway', serif;
+	animation-delay:1.5s !important;
+	transition:all 0.4s ease-out;
+	font-weight: bold;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+} 
+.rainbow{
+	background: -webkit-linear-gradient(180deg,#EE6352,#E7386F,orangered,gold,#59CD90,#5ADBFF);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+} 
+/*Custom Styling*/
+
+/*Responsive Design*/
+@media screen and (max-width: 991px) {
+
+}
+@media screen and (max-width: 767px) { 
+
+}

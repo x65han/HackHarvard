@@ -1,0 +1,8 @@
+{
+  "name": "Hack Harvard Multiplayer Pacman Game",
+  "description": "Multiplayer functionality with Socket io",
+  "repository": "https://github.com/x65han",
+  "logo": "http://www.johnsonhan.com/img/favicon.ico",
+  "keywords": ["node", "express", "Dynamic"],
+  "image": "heroku/nodejs"
+}

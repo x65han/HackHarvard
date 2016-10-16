@@ -1,0 +1,29 @@
+{
+  "name": "HackHarvard 2016",
+  "version": "0.2.5",
+  "description": "Pacman Online Multiplayer Game",
+  "engines": {
+    "node": "5.9.1"
+  },
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "ejs": "2.4.1",
+    "express": "4.13.3",
+    "firebase": "^3.3.2",
+    "socket.io": "1.2.0",
+    "request": "2.75.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/x65han"
+  },
+  "keywords": [
+    "node",
+    "heroku",
+    "express"
+  ],
+  "license": "MIT"
+}

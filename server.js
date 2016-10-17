@@ -7,7 +7,7 @@ var nickname = [], rooms = [], connections = [];
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 //FireBase Setup
-var rootURL = "https://unisoundpower.firebaseio.com";
+var rootURL = "https://hackharvard-e5a7d.firebaseio.com";
 var firebase = require("firebase");
 firebase.initializeApp({databaseURL: rootURL});
 var db = firebase.database();
@@ -18,63 +18,63 @@ app.set('views', __dirname + '');
 app.set('view engine', 'html');
 // socket
 io.on('connection', function(socket){
+	// Connect
 	connections.push(socket);
-	console.log('Connected: %s sockets connected || %s registered users', connections.length, nickname.length); 
+	console.log('Connected: %s sockets connected', connections.length); 
     // Disconnect
     socket.on('disconnect', function(data){
 		connections.splice(connections.indexOf(socket), 1);
 		nickname.splice(nickname.indexOf(socket.nickname),1);
-		console.log('%s disconnected: %s sockets connected || %s registered users', socket.nickname, connections.length, nickname.length);
+		rooms.splice(rooms.indexOf(socket.room),1);
+		socket.leave(socket.room);
+		console.log('Connected: %s sockets connected', connections.length);
     });
-	//socket.io Functions
-	socket.on('register message', function(msg){
-		msg.message = processEmoticon(msg.message);
-		var internal_message_wrapper = {};
-	    internal_message_wrapper[getTimeStamp()] = {
-	        "detail" : msg.message,
-	        "sender" : msg.signature
-	    };
-		console.log('registering: ');console.log(msg);
-		ref.child(socket.channel).update(internal_message_wrapper);
-		io.to(socket.channel).emit("new message", msg);
+	// socket.io Functions
+	socket.on('join room', function(roomRequest, response){ 
+	    console.log("-=-=-=-=-=-=-=-=-=-=-=-");
+	    var roomname = roomRequest[0];
+	    var username = roomRequest[1];
+		console.log("Handing Join Room Request: " + username + " in " + roomname);
+		// roomRequest -> ["E5","Johnson"]
+		ref.on("value",function(snapshot){
+			var data = snapshot.val();
+        	delete data.placeholder;
+        	for(var room in data) rooms.push(room);
+        	// new room? or room exists?
+        	if(rooms.indexOf(roomname) == -1){
+        		//create new room
+        		var user = {};	user[username] = 0;
+        		var temp = {};	temp[roomname] = user;
+				ref.update(temp);
+				console.log(temp);
+				console.log("New Room created -> " + roomname);
+				console.log(rooms);
+        	}
+        	//Check username availibility for existing room
+        	console.log(data.roomname);
+			//Update this Socket's information
+			socket.join(roomname);
+			socket.room = roomname;
+			socket.nickname = username;
+			// Emit to the room about new player
+			io.to(roomRequest[0]).emit("new player", username);
+	    },function(errorObject) {
+	        console.log("The read failed: " + errorObject.code);
+	    });
 	}); 
 });
 //REST 
 app.get('/', function(request, response) {response.sendFile(__dirname + '/index.html');});
-app.get('/ping', function (req, res) {
-	console.log("System PING!!!!: " + getTimeStamp());
-	res.status(200).send(getTimeStamp());
-});
-//Heroku Constant ping
-setInterval(function(){ pingMaster();}, 1740 * 1000);
-function pingMaster(){
-	console.log("Re-vive Master =-=-=-=-=-");
-	request('https://forcefocus.herokuapp.com/ping', function (error, response, body) {
-		if(response == undefined) console.log("Nobody replies - embarrasement");
-		else console.log(response.toString().length);
+app.get('/deleteAllRooms', function (req, res) {
+	console.log('Database Cleared & Reset');
+	connections = nickname = rooms = []; 
+	ref.set({
+		placeholder:'Johnson Han'
 	});
-}
-// Ultility Functions
-function getTimeStamp(){
-    var d = new Date();
-    var year  = d.getFullYear().toString();
-    var month = (d.getMonth() + 1).toString();
-    var day   = d.getDate().toString();
-    var hour  = d.getHours().toString();
-    var minute= d.getMinutes().toString();
-    var second= d.getSeconds().toString();
-    var mili  = d.getMilliseconds().toString();
-    //Space Filling
-    if(month.length == 1) month = '0' + month;
-    if(day.length == 1) day = '0' + day;
-    if(hour.length == 1) hour = '0' + hour;
-    if(minute.length == 1) minute = '0' + minute;
-    if(second.length == 1) second = '0' + second;
-    if(mili.length == 1) mili = '00' + mili;
-    else if(mili.length == 2) mili = '0' + mili;
-    // console.log(year);console.log(month);console.log(day);console.log(hour);console.log(minute);console.log(second);console.log(mili);
-    return year + month + day + hour + minute + second + mili;
-}
+	res.status(200).send('Delete All Rooms Request Sent');
+}); 
+
+// Ultility Functions 
 
 //Port Settings
 app.set('port', (process.env.PORT || 5000));

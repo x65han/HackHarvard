@@ -20,43 +20,61 @@ app.set('view engine', 'html');
 io.on('connection', function(socket){
 	// Connect to socket
 	connections.push(socket);
+	socket.isRegistered = false;
 	console.log('Connected: %s sockets connected', connections.length); 
     // Disconnect
     socket.on('disconnect', function(data){
+    	if(socket.isRegistered == true)	ref.child(socket.room).child(socket.nickname).set(null);
 		connections.splice(connections.indexOf(socket), 1);
 		nickname.splice(nickname.indexOf(socket.nickname),1);
 		rooms.splice(rooms.indexOf(socket.room),1);
-		socket.leave(socket.room);
 		console.log('Connected: %s sockets connected', connections.length);
     });
 	// socket.io Functions
+	socket.on('transfer data', function(data, response){
+		console.log("transferring data -> " + data);
+	}); 
 	socket.on('join room', function(roomRequest, response){ 
+		var virgin = true;
 	    console.log("-=-=-=-=-=-=-=-=-=-=-=-");
 	    var roomname = roomRequest[0];
 	    var username = roomRequest[1];
 		console.log("Handing Join Room Request: " + username + " in " + roomname);
 		// roomRequest -> ["E5","Johnson"]
 		ref.on("value",function(snapshot){
+			if(virgin == false) return;
+			virgin = false;
 			var data = snapshot.val();
-			console.log(data);
         	delete data.placeholder;
         	for(var room in data) rooms.push(room);
         	// new room? or room exists?
+    		var user = {};	user[username] = 0;
         	if(rooms.indexOf(roomname) == -1){
         		//create new room
-        		var user = {};	user[username] = 0;
         		var temp = {};	temp[roomname] = user;
 				ref.update(temp);
-				console.log(temp);
 				console.log("New Room created -> " + roomname);
-				console.log(rooms);
+				response(true);
+        	}else{
+        		//Check username availibility for existing room
+        		for(var one in data[roomname]){
+	        		if(one == username){
+	        			console.log("Conflict");
+	        			console.log(data[roomname]);
+	        			response(false);
+	        			return;
+	        		}
+	        	}
+	        	response(true);
+	        	console.log("Adding " + username + " -> " + roomname);
+	        	//Add player to Room
+	        	ref.child(roomname).update(user);
         	}
-        	//Check username availibility for existing room
-        	console.log(data.roomname);
 			//Update this Socket's information
 			socket.join(roomname);
 			socket.room = roomname;
 			socket.nickname = username;
+			socket.isRegistered = true;
 			// Emit to the room about new player
 			io.to(roomRequest[0]).emit("new player", username);
 	    },function(errorObject) {
@@ -73,6 +91,7 @@ app.get('/deleteAllRooms', function (req, res) {
 		placeholder:'Johnson Han'
 	});
 	res.status(200).send('Delete All Rooms Request Sent');
+	console.log("Deletion complete");
 }); 
 
 // Ultility Functions 

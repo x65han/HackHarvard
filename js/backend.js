@@ -1,19 +1,17 @@
 function establishConnection(){
+    console.log("Establishing Connection with Server");
     socket = io.connect(""); 
-    // socket.on('distribute channel message', function(data){
-    //     if(environmentMessageReady == false)    applyMessageOnUI(data);
-    //     environmentMessageReady = true;
-    // });
+    joinRoom("E7","Johnson");
+    // socket.on('distribute channel message', function(data){  });
 }
-
-    // socket.emit('register user', username, function(response){
-    //     sanityCheckUsername = response;
-    //     console.log(response);
-    //     if(response == false){
-    //         alert("Username Exist & please try a different Username");
-    //         clearInterval(sanityCheckTimer);
-    //         $('.username-input').val('');
-    //     }
-    // });
+function joinRoom(roomname, username){
+    console.log("-=-=-=-=-=-=-=-=-=-=-=-");
+    console.log(username + " <joining> " + roomname);
+    console.log();
+    var temp = [];
+    temp.push(roomname);temp.push(username);
+    socket.emit('join room', temp, function(response){
+        console.log(response);
+    });
+} 
     
-    // socket.emit("request channel message",current_user_channel);

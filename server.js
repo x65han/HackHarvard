@@ -18,7 +18,7 @@ app.set('views', __dirname + '');
 app.set('view engine', 'html');
 // socket
 io.on('connection', function(socket){
-	// Connect
+	// Connect to socket
 	connections.push(socket);
 	console.log('Connected: %s sockets connected', connections.length); 
     // Disconnect
@@ -38,6 +38,7 @@ io.on('connection', function(socket){
 		// roomRequest -> ["E5","Johnson"]
 		ref.on("value",function(snapshot){
 			var data = snapshot.val();
+			console.log(data);
         	delete data.placeholder;
         	for(var room in data) rooms.push(room);
         	// new room? or room exists?

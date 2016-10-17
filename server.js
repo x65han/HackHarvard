@@ -31,8 +31,13 @@ io.on('connection', function(socket){
 		console.log('Connected: %s sockets connected', connections.length);
     });
 	// socket.io Functions
-	socket.on('transfer data', function(data, response){
-		console.log("transferring data -> " + data);
+	socket.on('send data', function(data, response){
+		if(socket.nickname == undefined || socket.room == undefined) return false;
+		data.username = socket.nickname;
+		data.roomname = socket.room;
+		console.log("transferring data -> ");
+		console.log(data);
+		io.to(socket.room).emit("receive data", data);
 	}); 
 	socket.on('join room', function(roomRequest, response){ 
 		var virgin = true;
@@ -76,7 +81,7 @@ io.on('connection', function(socket){
 			socket.nickname = username;
 			socket.isRegistered = true;
 			// Emit to the room about new player
-			io.to(roomRequest[0]).emit("new player", username);
+			io.to(roomname).emit("new player", username);
 	    },function(errorObject) {
 	        console.log("The read failed: " + errorObject.code);
 	    });

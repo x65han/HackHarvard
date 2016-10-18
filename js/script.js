@@ -1,7 +1,7 @@
 //configuration varible
 //gives the state of the game (either local host or server)
 var REST = window.location.href.slice(0, window.location.href.length - 1);
-var socket, roomname, username;
+var socket, roomname, username, score= 0, scoreChanged = false;
 roomname = "E5";
 username = "Johnson Han";
 //incase anything doesn't load

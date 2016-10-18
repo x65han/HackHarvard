@@ -21,7 +21,7 @@ io.on('connection', function(socket){
 	// Connect to socket
 	connections.push(socket);
 	socket.isRegistered = false;
-	console.log('Connected: %s sockets connected', connections.length); 
+	console.log('Connected: %s sockets connected', connections.length);
     // Disconnect
     socket.on('disconnect', function(data){
     	if(socket.isRegistered == true)	ref.child(socket.room).child(socket.nickname).set(null);
@@ -35,11 +35,13 @@ io.on('connection', function(socket){
 		if(socket.nickname == undefined || socket.room == undefined) return false;
 		data.username = socket.nickname;
 		data.roomname = socket.room;
-		console.log("transferring data -> ");
-		console.log(data);
 		io.to(socket.room).emit("receive data", data);
-	}); 
-	socket.on('join room', function(roomRequest, response){ 
+		console.log("transferring data -> ");
+		if(data.score != undefined)
+			ref.child(socket.room).child(socket.nickname).set(data.score);
+		console.log(data);
+	});
+	socket.on('join room', function(roomRequest, response){
 		var virgin = true;
 	    console.log("-=-=-=-=-=-=-=-=-=-=-=-");
 	    var roomname = roomRequest[0];
@@ -85,21 +87,21 @@ io.on('connection', function(socket){
 	    },function(errorObject) {
 	        console.log("The read failed: " + errorObject.code);
 	    });
-	}); 
+	});
 });
-//REST 
+//REST
 app.get('/', function(request, response) {response.sendFile(__dirname + '/index.html');});
 app.get('/deleteAllRooms', function (req, res) {
 	console.log('Database Cleared & Reset');
-	connections = nickname = rooms = []; 
+	connections = nickname = rooms = [];
 	ref.set({
 		placeholder:'Johnson Han'
 	});
 	res.status(200).send('Delete All Rooms Request Sent');
 	console.log("Deletion complete");
-}); 
+});
 
-// Ultility Functions 
+// Ultility Functions
 
 //Port Settings
 app.set('port', (process.env.PORT || 5000));

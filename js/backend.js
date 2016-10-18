@@ -1,6 +1,6 @@
 function establishConnection(){
     console.log("Establishing Connection with Server");
-    socket = io.connect(""); 
+    socket = io.connect("");
     joinRoom(roomname, username);
     //Socket Listener
     socket.on('new player', function(data){
@@ -8,7 +8,7 @@ function establishConnection(){
     });
     socket.on('receive data', function(data){
         if(data.username == username) return;
-        console.log(data);
+        handleShare(data);
     });
 }
 function joinRoom(roomname, username){
@@ -25,12 +25,16 @@ function joinRoom(roomname, username){
         }
     });
     share();
-} 
+}
 function share(){
     var packageData = {
-        x : 10,
-        y: 20
+        x : 612,
+        y: 798,
     }
+    if(scoreChanged)    packageData.score = score; scoreChanged = false;
     socket.emit("send data", packageData);
 }
-    
+function handleShare(data){
+    console.log("Handling Share");
+    console.log(data);
+}

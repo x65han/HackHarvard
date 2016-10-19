@@ -35,8 +35,8 @@ function startGame(){
 	$("input").css("width","0%");
 	$("input").css("border","none");
 	userLoggedIn = true;
-	setTimeout(function(){showLoginScreen(false);}, 400);
 	setTimeout(function(){
+		showLoginScreen(false);
 		//Game
 		var game = new Phaser.Game(1200,500, Phaser.CANVAS,'');
 			game.state.add('Boot', Game.Boot);
@@ -44,5 +44,5 @@ function startGame(){
 			game.state.add('MainMenu', Game.MainMenu);
 			game.state.add('Level1', Game.Level1)
 			game.state.start('Boot');
-	}, 600);
+	}, 400);
 }

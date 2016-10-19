@@ -26,10 +26,10 @@ window.onload = function(){
 
 //Monitor
 setInterval(function(){
-	if(!userLoggedIn && $('.roomname').val() != "" && $('.username').val() != ""){
+	if(!userLoggedIn && $('.roomname').val().length > 1 && $('.username').val().length > 1){
 		$(".login-button").css("opacity","1");
 	}
-	if(!userLoggedIn && ($('.roomname').val() == "" || $('.username').val() == "")){
-		$(".login-button").css("opacity","0.3");
+	if(!userLoggedIn && ($('.roomname').val().length < 2 || $('.username').val().length < 2)){
+		$(".login-button").css("opacity","0.1");
 	}
 }, 100);

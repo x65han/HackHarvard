@@ -1,11 +1,14 @@
 var enemy1;
+var enemy2;
+var enemy3;
+var enemy4;
 Game.Level1 = function(game){};
 var map;
 var layer;
 var player;
 var controls = {};
-var playerSpeed = 150;
-var jumpTimer = 0;
+var playerSpeed = 100;
+
 var drag;
 var button;
 
@@ -24,8 +27,9 @@ Game.Level1.prototype = {
         layer.resizeWorld();
         map.setCollisionBetween(0,2);
         
-        
-        player = this.add.sprite(100,560,'player');
+        //sets the location of the player
+        player = this.add.sprite(200,480,'player');
+        //when the player moves, it doesn't move too much 
         player.anchor.setTo(0.5,0.5);
         
         this.physics.arcade.enable(player);
@@ -35,17 +39,19 @@ Game.Level1.prototype = {
         
         player.body.collideWorldBounds = true;
         controls = {
+          up: this.input.keyboard.addKey(Phaser.Keyboard.W),
+          down: this.input.keyboard.addKey(Phaser.Keyboard.S),
           right: this.input.keyboard.addKey(Phaser.Keyboard.D),
           left: this.input.keyboard.addKey(Phaser.Keyboard.A),
-          up: this.input.keyboard.addKey(Phaser.Keyboard.W),
+             
         };
         
-        button = this.add.button(this.world.centerX -95, this.world.centerY + 200, 'buttons', function(){
+        /*button = this.add.button(this.world.centerX -95, this.world.centerY + 200, 'buttons', function(){
             console.log('pressed');
-        }, this,2,1,0);
+        }, this,2,1,0);*/
         
         //making the button move with the camera
-        button.fixedToCamera = true;
+        /*button.fixedToCamera = true;*/
         
        
        
@@ -55,7 +61,7 @@ Game.Level1.prototype = {
         this.physics.arcade.collide(player,layer);
         
         player.body.velocity.x = 0;
-        
+        player.body.velocity.y = 0;
         
         if(controls.right.isDown){
             player.animations.play('run');
@@ -67,8 +73,16 @@ Game.Level1.prototype = {
             player.scale.setTo(-1,1);
             player.body.velocity.x -= playerSpeed;
         }
+        if(controls.up.isDown){
+            player.scale.setTo(-1,1);
+            player.body.velocity.y -= playerSpeed;
+        }
+        if(controls.down.isDown){
+            player.scale.setTo(-1,1);
+            player.body.velocity.y += playerSpeed;
+        }
         //If up button is pressed and player is touching the ground and if the timer is 0
-        if((controls.up.isDown) && (player.body.onFloor() || player.body.touching.down) && this.time.now > jumpTimer){
+        /*if((controls.up.isDown) && (player.body.onFloor() || player.body.touching.down) && this.time.now > jumpTimer){
             player.body.velocity.y = -900;
             jumpTimer = this.time.now + 800;
             player.animations.play('jump');
@@ -76,23 +90,21 @@ Game.Level1.prototype = {
         //if the player is not moving at all 
         if (player.body.velocity.x == 0 && player.body.velocity.y ==0){
             player.animations.play('idle');
-        }
-        
-        
-        
+        }*/
         
         
     }, 
     
-    resetPlayer:function(){
+   /* resetPlayer:function(){
         
         player.reset(100,560);
         
-    },
+    },*/
     
-    getCoin: function(){
+    /*getCoin: function(){
         map.putTile(-1,layer.getTileX(player.x), layer.getTileY(player.y));
-    }
+    }*/
+    
     
 }
 //checking if they are overlapping 

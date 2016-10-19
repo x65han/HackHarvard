@@ -22,11 +22,7 @@ function joinRoom(roomname, username){
             $('.roomname').css("width","60%");
             $('.username').css("width","60%");
             // login instruction
-    		$('.login-instruction').removeClass("blink");
     		$('.login-instruction').html("Username exists");
-    		setTimeout(function(){$('.login-instruction').addClass("blink");}, 10);
-    		setTimeout(function(){$('.login-instruction').html("");}, 5000);
-    		return;
         }
     });
     share();

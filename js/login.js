@@ -22,10 +22,8 @@ function requestTostartGame(){
 	console.log("Requested to Start Game");
 	roomname = $('.roomname').val();username = $('.username').val();
 	if(roomname.length < 2 || username.length < 2){
-		$('.login-instruction').removeClass("blink");
+		// login instruction
 		$('.login-instruction').html("At least 2 characters");
-		setTimeout(function(){$('.login-instruction').addClass("blink");}, 10);
-		setTimeout(function(){$('.login-instruction').html("");}, 5000);
 		return;
 	}
 	joinRoom(roomname, username);

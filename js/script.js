@@ -13,7 +13,8 @@ window.onload = function(){
 	//key stroke
     document.body.onkeydown = function(e) {
         var ev = e || event;var key = ev.keyCode;
-        if(key == 13) $('.login-button').trigger( "click" );
+        if(key == 13 && !userLoggedIn) $('.login-button').trigger( "click" );
+		if(!userLoggedIn && key != 13)$(".login-instruction").html('');
     }
     //Game
     var game = new Phaser.Game(1200,500, Phaser.CANVAS,'');

@@ -60,8 +60,8 @@ Game.Level1.prototype = {
     update: function(){
         this.physics.arcade.collide(player,layer);
         
-        player.body.velocity.x = 0;
-        player.body.velocity.y = 0;
+        player.body.velocity.x = 50;
+        player.body.velocity.y = 50;
         
         if(controls.right.isDown){
             player.animations.play('run');

@@ -3,6 +3,7 @@ function showLoginScreen(decision){
 		setTimeout(function(){
 			$('.login').addClass("login-active");
 			$(".login").css("opacity","1");
+			$('#body').css("overflow","hidden");
 			setTimeout(function(){
 				$("input").css("width","60%");
 				$(".login-description").css("opacity","1");

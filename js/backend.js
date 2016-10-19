@@ -1,7 +1,6 @@
 function establishConnection(){
     console.log("Establishing Connection with Server");
     socket = io.connect("");
-    joinRoom(roomname, username);
     //Socket Listener
     socket.on('new player', function(data){
         console.log("New player: " + data);
@@ -14,14 +13,15 @@ function establishConnection(){
 function joinRoom(roomname, username){
     console.log("-=-=-=-=-=-=-=-=-=-=-=-");
     console.log(username + " <joining> " + roomname);
-    console.log();
-    var temp = [];
-    temp.push(roomname);temp.push(username);
+    var temp = [];temp.push(roomname);temp.push(username);
     socket.emit('join room', temp, function(response){
         if(response == true){
-            console.log("Start Game");
+            startGame();
         }else{
-            console.log("Username exists. Please select a different username!");
+            $('.username').val('');
+            $('.roomname').css("width","60%");
+            $('.username').css("width","60%");
+            setTimeout(function(){alert("Username exists. Please select a different username!");}, 200);
         }
     });
     share();
@@ -29,7 +29,7 @@ function joinRoom(roomname, username){
 function share(){
     var packageData = {
         x : 612,
-        y: 798,
+        y : 798,
     }
     if(scoreChanged)    packageData.score = score; scoreChanged = false;
     socket.emit("send data", packageData);

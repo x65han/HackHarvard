@@ -14,13 +14,23 @@
   <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
   <script src="js/script.js" type="text/javascript"></script>
   <script src="js/backend.js" type="text/javascript"></script>
+  <script src="js/login.js" type="text/javascript"></script>
   <script src="js/phaser.min.js" type="text/javascript"></script>
   <script src="js/Boot.js" type="text/javascript"></script>
   <script src="js/Level1.js" type="text/javascript"></script>
   <script src="js/Preloader.js" type="text/javascript"></script>
   <script src="js/MainMenu.js" type="text/javascript"></script>
 </head>
-<body id = 'body'> 
+<body id = 'body'>
+
+    <div class='login'>
+        <img class='harvard-logo' src = "img/harvard.png"></img>
+        <h1 class='login-description'>&lt;Room name&gt;</h1>
+        <input class='roomname'></input>
+        <h1 class='login-description'>&lt;Your name&gt;</h1>
+        <input class='username'></input><br>
+        <div class='about'>ABOUT</div><div class='login-button' onclick='requestTostartGame()'>&nbsp;&nbsp;&nbsp;LOGIN&nbsp;&nbsp;&nbsp;</div>
+    </div>
 
 </body>
 </html>

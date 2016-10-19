@@ -46,6 +46,7 @@ io.on('connection', function(socket){
 	    console.log("-=-=-=-=-=-=-=-=-=-=-=-");
 	    var roomname = roomRequest[0];
 	    var username = roomRequest[1];
+		console.log(roomname + " <-> " + username);
 		console.log("Handing Join Room Request: " + username + " in " + roomname);
 		// roomRequest -> ["E5","Johnson"]
 		ref.on("value",function(snapshot){

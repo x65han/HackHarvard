@@ -7,18 +7,89 @@
 	-webkit-user-select: none;
 	-moz-user-select: none;
 	-ms-user-select: none;
-} 
+}
 .rainbow{
 	background: -webkit-linear-gradient(180deg,#EE6352,#E7386F,orangered,gold,#59CD90,#5ADBFF);
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
-} 
+}
+.login{
+	height:100vh;
+	width:100vw;
+	top:0%;
+	opacity:0;
+	left:0%;
+	position:absolute;
+}
+input{
+	background-color:#DCDCDC;
+	opacity:0.3;
+	color:#FF1111 !important;
+	height:50px;
+	width:0px;
+	border-radius:40px;
+	font-size:30px !important;
+	padding-left:20px;
+	padding-right:20px;
+	outline:none;
+	border:none;
+	text-align:center;
+}
+input:focus{
+	text-align:left;
+	border-left:20px solid crimson;
+	opacity:1;
+}
+.login-active{
+	width: 400px;
+	margin-left: -200px;
+	height: 500px;
+	margin-top: -250px;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	text-align:center;
+	border-radius: 25px;
+	border: 10px solid #E71D36;
+	background-color:#333;
+	/*box-shadow: #0CCE6B 0px 0px 0px 10px;*/
+}
+.harvard-logo{
+	height:100px;
+	margin-top:5%;
+	width:100px;
+}
+.login-description{
+	color:#0AD3FF;
+	opacity:0;
+}
+.about{
+	cursor:pointer;
+	display:inline;font-size:20px;
+	border-radius:20px;
+	height:30px;
+	opacity:0;
+	background-color:transparent;color:crimson;
+	border:2px solid crimson;
+	padding:5px 10px 5px 10px;
+}
+.login-button{
+	cursor:pointer;
+	display:inline;font-size:20px;
+	margin-left:5%;
+	opacity:0;
+	height:30px;
+	border-radius:20px;
+	background-color: red;color:#333;
+	padding:5px 10px 5px 10px;
+}
+.username{margin-bottom:20px;}
 /*Custom Styling*/
 
 /*Responsive Design*/
 @media screen and (max-width: 991px) {
 
 }
-@media screen and (max-width: 767px) { 
+@media screen and (max-width: 767px) {
 
 }

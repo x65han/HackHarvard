@@ -3,7 +3,6 @@ function showLoginScreen(decision){
 		setTimeout(function(){
 			$('.login').addClass("login-active");
 			$(".login").css("opacity","1");
-			$('.login-button').addClass("hidden");
 			setTimeout(function(){
 				$("input").css("width","60%");
 				$(".login-description").css("opacity","1");
@@ -11,6 +10,7 @@ function showLoginScreen(decision){
 				$(".roomname").focus();
 			}, 400);
 		}, 150);
+
 		return;
 	}
 	// Hide login Component
@@ -21,6 +21,13 @@ function showLoginScreen(decision){
 function requestTostartGame(){
 	console.log("Requested to Start Game");
 	roomname = $('.roomname').val();username = $('.username').val();
+	if(roomname.length < 2 || username.length < 2){
+		$('.login-instruction').removeClass("blink");
+		$('.login-instruction').html("At least 2 characters");
+		setTimeout(function(){$('.login-instruction').addClass("blink");}, 10);
+		setTimeout(function(){$('.login-instruction').html("");}, 5000);
+		return;
+	}
 	joinRoom(roomname, username);
 }
 function startGame(){

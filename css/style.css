@@ -80,12 +80,28 @@ input:focus{
 	opacity:0;
 	height:30px;
 	border-radius:20px;
-	background-color: red;color:#333;
+	background-color: #0AD3FF;color:#333;
 	padding:5px 10px 5px 10px;
 }
 .username{margin-bottom:20px;}
 /*Custom Styling*/
 
+
+/*keyframes Animation*/
+.blink {
+  	animation: blink-animation 1s 1;
+  	-webkit-animation: blink-animation 1s 1;
+}
+@keyframes blink-animation {
+	0%{transform:scale(1,1);}
+	50%{transform:scale(1.5,1.5);}
+	100%{transform:scale(1,1);}
+}
+@-webkit-keyframes blink-animation {
+  	to {
+    	visibility: hidden;
+  	}
+}
 /*Responsive Design*/
 @media screen and (max-width: 991px) {
 

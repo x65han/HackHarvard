@@ -23,15 +23,13 @@ window.onload = function(){
         game.state.add('Level1', Game.Level1)
         game.state.start('Boot');
 };
- 
+
 //Monitor
 setInterval(function(){
 	if(!userLoggedIn && $('.roomname').val() != "" && $('.username').val() != ""){
 		$(".login-button").css("opacity","1");
-		$('.login-button').removeClass("hidden");
 	}
 	if(!userLoggedIn && ($('.roomname').val() == "" || $('.username').val() == "")){
-		$(".login-button").css("opacity","0");
-		$('.login-button').addClass("hidden");
+		$(".login-button").css("opacity","0.3");
 	}
-}, 1);
+}, 100);

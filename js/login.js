@@ -1,7 +1,5 @@
 function showLoginScreen(decision){
 	if(decision == true){
-		$('#body').css("background","url('img/background.jpg')");
-		$('#body').css("background-size","cover");
 		setTimeout(function(){
 			$('.login').addClass("login-active");
 			$(".login").css("opacity","1");
@@ -17,7 +15,8 @@ function showLoginScreen(decision){
 	}
 	// Hide login Component
 	$('.login').removeClass("login-active");
-	$('#body').css("background","");
+	$('.background').css("background","");
+	$('.background').addClass('hidden');
 	$('.login').html('');
 	setTimeout(function(){$('.login').addClass("hidden")}, 400);
 }
@@ -37,12 +36,6 @@ function startGame(){
 	userLoggedIn = true;
 	setTimeout(function(){
 		showLoginScreen(false);
-		//Game
-		var game = new Phaser.Game(1200,500, Phaser.CANVAS,'');
-			game.state.add('Boot', Game.Boot);
-			game.state.add('Preloader', Game.Preloader);
-			game.state.add('MainMenu', Game.MainMenu);
-			game.state.add('Level1', Game.Level1)
-			game.state.start('Boot');
+		game.state.start('Boot');
 	}, 400);
 }

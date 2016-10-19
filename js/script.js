@@ -1,7 +1,7 @@
 //configuration varible
 //gives the state of the game (either local host or server)
 var REST = window.location.href.slice(0, window.location.href.length - 1);
-var socket, roomname, username, score= 0, scoreChanged = false, userLoggedIn = false;
+var game, socket, roomname, username, score= 0, scoreChanged = false, userLoggedIn = false;
 roomname = "E5";
 username = "Johnson Han";
 //incase anything doesn't load
@@ -16,6 +16,12 @@ window.onload = function(){
         if(key == 13 && !userLoggedIn) $('.login-button').trigger( "click" );
 		if(!userLoggedIn && key != 13)$(".login-instruction").html('');
     }
+	//Game Pre-boot
+	game = new Phaser.Game(1200,500, Phaser.CANVAS,'');
+		game.state.add('Boot', Game.Boot);
+		game.state.add('Preloader', Game.Preloader);
+		game.state.add('MainMenu', Game.MainMenu);
+		game.state.add('Level1', Game.Level1)
 };
 
 //Monitor

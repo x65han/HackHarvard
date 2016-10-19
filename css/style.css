@@ -8,6 +8,12 @@
 	-moz-user-select: none;
 	-ms-user-select: none;
 }
+.background{
+	height:100vh;
+	width:100vw;
+	background:url('../img/background.jpg');
+	background-size:100% 100%;
+}
 .rainbow{
 	background: -webkit-linear-gradient(180deg,#EE6352,#E7386F,orangered,gold,#59CD90,#5ADBFF);
 	-webkit-background-clip: text;

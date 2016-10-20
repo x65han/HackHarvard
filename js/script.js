@@ -6,30 +6,30 @@ roomname = "E5";
 username = "Johnson Han";
 //incase anything doesn't load
 window.onload = function(){
-	console.log("Loading Done");
-	showLoginScreen(true);
-    //Connect to socket io (backend)
-    establishConnection();
-	//key stroke
-    document.body.onkeydown = function(e) {
-        var ev = e || event;var key = ev.keyCode;
-        if(key == 13 && !userLoggedIn) $('.login-button').trigger( "click" );
-		if(!userLoggedIn && key != 13)$(".login-instruction").html('');
-    }
-	//Game Pre-boot
-	game = new Phaser.Game(1920,1000, Phaser.CANVAS,'');
-		game.state.add('Boot', Game.Boot);
-		game.state.add('Preloader', Game.Preloader);
-		game.state.add('MainMenu', Game.MainMenu);
-		game.state.add('Level1', Game.Level1);
+		console.log("Loading Done");
+		showLoginScreen(true);
+	    //Connect to socket io (backend)
+	    establishConnection();
+		//key stroke
+	    document.body.onkeydown = function(e) {
+	        var ev = e || event;var key = ev.keyCode;
+	        if(key == 13 && !userLoggedIn) $('.login-button').trigger( "click" );
+			if(!userLoggedIn && key != 13)$(".login-instruction").html('');
+	    }
+			//Game Pre-boot
+			game = new Phaser.Game(1920,1000, Phaser.CANVAS,'');
+			game.state.add('Boot', Game.Boot);
+			game.state.add('Preloader', Game.Preloader);
+			game.state.add('MainMenu', Game.MainMenu);
+			game.state.add('Level1', Game.Level1);
 };
 
 //Monitor
 setInterval(function(){
-	if(!userLoggedIn && $('.roomname').val().length > 1 && $('.username').val().length > 1){
-		$(".login-button").css("opacity","1");
-	}
-	if(!userLoggedIn && ($('.roomname').val().length < 2 || $('.username').val().length < 2)){
-		$(".login-button").css("opacity","0.1");
-	}
+		if(!userLoggedIn && $('.roomname').val().length > 1 && $('.username').val().length > 1){
+				$(".login-button").css("opacity","1");
+		}
+		if(!userLoggedIn && ($('.roomname').val().length < 2 || $('.username').val().length < 2)){
+				$(".login-button").css("opacity","0.1");
+		}
 }, 100);

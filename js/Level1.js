@@ -1,16 +1,9 @@
-var enemy1;
-var enemy2;
-var enemy3;
-var enemy4;
 Game.Level1 = function(game){};
-var map;
-var layer;
-var player;
+var enemy1,enemy2,enemy3,enemy4;
+var map, layer, player;
+var drag, button;
 var controls = {};
 var playerSpeed = 200;
-
-var drag;
-var button;
 
 Game.Level1.prototype = {
     create: function(game){
@@ -39,11 +32,10 @@ Game.Level1.prototype = {
 
         player.body.collideWorldBounds = true;
         controls = {
-          up: this.input.keyboard.addKey(Phaser.Keyboard.W),
-          down: this.input.keyboard.addKey(Phaser.Keyboard.S),
-          right: this.input.keyboard.addKey(Phaser.Keyboard.D),
-          left: this.input.keyboard.addKey(Phaser.Keyboard.A),
-
+            up: this.input.keyboard.addKey(Phaser.Keyboard.W),
+            down: this.input.keyboard.addKey(Phaser.Keyboard.S),
+            right: this.input.keyboard.addKey(Phaser.Keyboard.D),
+            left: this.input.keyboard.addKey(Phaser.Keyboard.A),
         };
 
         /*button = this.add.button(this.world.centerX -95, this.world.centerY + 200, 'buttons', function(){
@@ -52,20 +44,14 @@ Game.Level1.prototype = {
 
         //making the button move with the camera
         /*button.fixedToCamera = true;*/
-
-
-
-
     },
     update: function(){
         this.physics.arcade.collide(player,layer);
 
-
-
         if(controls.right.isDown){
             player.animations.play('run');
             player.scale.setTo(1,1);
-            if(playerSpeed<0){
+            if(playerSpeed < 0){
                 playerSpeed *= -1;
             }
             player.body.velocity.x = playerSpeed;
@@ -74,7 +60,7 @@ Game.Level1.prototype = {
         if(controls.left.isDown){
             player.animations.play('run');
             player.scale.setTo(-1,1);
-            if(playerSpeed>0){
+            if(playerSpeed > 0){
                 playerSpeed *= -1;
             }
             player.body.velocity.x = playerSpeed;
@@ -83,7 +69,7 @@ Game.Level1.prototype = {
         }
         if(controls.up.isDown){
             player.scale.setTo(-1,1);
-            if(playerSpeed>0){
+            if(playerSpeed > 0){
                 playerSpeed *= -1;
             }
             player.body.velocity.y = playerSpeed;
@@ -91,7 +77,7 @@ Game.Level1.prototype = {
         }
         if(controls.down.isDown){
             player.scale.setTo(-1,1);
-            if(playerSpeed<0){
+            if(playerSpeed < 0){
                 playerSpeed *= -1;
             }
             player.body.velocity.y = playerSpeed;

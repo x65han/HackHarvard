@@ -1,0 +1,15 @@
+.score-board{
+    height:100px;
+    width:100px;
+    background:transparent;
+    position:absolute;
+    text-align:right;
+    top:0px;right:0px;
+    padding-top:20px;padding-right:20px;
+    cursor:pointer;
+}
+.score{
+    margin-right:20px;
+    color:white;
+    font-size:20px;
+}

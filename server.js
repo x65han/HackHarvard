@@ -37,8 +37,10 @@ io.on('connection', function(socket){
 		data.roomname = socket.room;
 		io.to(socket.room).emit("receive data", data);
 		console.log("transferring data -> ");
-		if(data.score != undefined)
+		if(data.score != undefined){
 			ref.child(socket.room).child(socket.nickname).set(data.score);
+			socket.score = data.score;
+		}
 		console.log(data);
 	});
 	socket.on('join room', function(roomRequest, response){
@@ -59,32 +61,38 @@ io.on('connection', function(socket){
     		var user = {};	user[username] = 0;
         	if(rooms.indexOf(roomname) == -1){
         		//create new room
-        		var temp = {};	temp[roomname] = user;
-				ref.update(temp);
+				ref.child(roomname).update(user);
 				console.log("New Room created -> " + roomname);
-				response(true);
         	}else{
         		//Check username availibility for existing room
         		for(var one in data[roomname]){
 	        		if(one == username){
-	        			console.log("Conflict");
-	        			console.log(data[roomname]);
+	        			console.log("Conflict -> " + data[roomname]);
 	        			response(false);
 	        			return;
 	        		}
 	        	}
-	        	response(true);
-	        	console.log("Adding " + username + " -> " + roomname);
 	        	//Add player to Room
 	        	ref.child(roomname).update(user);
+				console.log("Adding " + username + " -> " + roomname);
         	}
-			//Update this Socket's information
+			//Setup this Socket's information
 			socket.join(roomname);
+			socket.score = 0;
 			socket.room = roomname;
 			socket.nickname = username;
 			socket.isRegistered = true;
+			// Get all player information in the room
+			var jsonWriter = {};
+			for(var x in connections){
+				if(connections[x].room == roomname){
+					var temp_name = connections[x].nickname;
+					jsonWriter[temp_name] = connections[x].score;
+				}
+			}
 			// Emit to the room about new player
-			io.to(roomname).emit("new player", username);
+			io.to(roomname).emit("new player", jsonWriter);
+			response(jsonWriter);
 	    },function(errorObject) {
 	        console.log("The read failed: " + errorObject.code);
 	    });
@@ -95,9 +103,7 @@ app.get('/', function(request, response) {response.sendFile(__dirname + '/index.
 app.get('/deleteAllRooms', function (req, res) {
 	console.log('Database Cleared & Reset');
 	connections = nickname = rooms = [];
-	ref.set({
-		placeholder:'Johnson Han'
-	});
+	ref.set({placeholder:'Johnson Han'});
 	res.status(200).send('Delete All Rooms Request Sent');
 	console.log("Deletion complete");
 });
@@ -109,3 +115,22 @@ app.set('port', (process.env.PORT || 5000));
 http.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
 });
+
+// Tear Down Script
+process.stdin.resume();//so the program will not close instantly
+
+function exitHandler(options, err) {
+    if (options.cleanup) console.log('clean');
+    if (err) console.log(err.stack);
+    if (options.exit) process.exit();
+	ref.set({placeholder:'Johnson Han'});
+}
+
+//do something when app is closing
+process.on('exit', exitHandler.bind(null,{cleanup:true}));
+
+//catches ctrl+c event
+process.on('SIGINT', exitHandler.bind(null, {exit:true}));
+
+//catches uncaught exceptions
+process.on('uncaughtException', exitHandler.bind(null, {exit:true}));

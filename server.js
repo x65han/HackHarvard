@@ -28,13 +28,13 @@ io.on('connection', function(socket){
 		connections.splice(connections.indexOf(socket), 1);
 		nickname.splice(nickname.indexOf(socket.nickname),1);
 		rooms.splice(rooms.indexOf(socket.room),1);
+		getAndUpdatePlayer(socket.room);
 		console.log('Connected: %s sockets connected', connections.length);
     });
 	// socket.io Functions
 	socket.on('send data', function(data, response){
 		if(socket.nickname == undefined || socket.room == undefined) return false;
 		data.username = socket.nickname;
-		data.roomname = socket.room;
 		io.to(socket.room).emit("receive data", data);
 		console.log("transferring data -> ");
 		if(data.score != undefined){
@@ -66,7 +66,7 @@ io.on('connection', function(socket){
         	}else{
         		//Check username availibility for existing room
         		for(var one in data[roomname]){
-	        		if(one == username){
+	        		if(one.toLowerCase() == username.toLowerCase()){
 	        			console.log("Conflict -> " + data[roomname]);
 	        			response(false);
 	        			return;
@@ -83,20 +83,24 @@ io.on('connection', function(socket){
 			socket.nickname = username;
 			socket.isRegistered = true;
 			// Get all player information in the room
-			var jsonWriter = {};
-			for(var x in connections){
-				if(connections[x].room == roomname){
-					var temp_name = connections[x].nickname;
-					jsonWriter[temp_name] = connections[x].score;
-				}
-			}
-			// Emit to the room about new player
-			io.to(roomname).emit("new player", jsonWriter);
-			response(jsonWriter);
+			getAndUpdatePlayer(roomname);
+			response(true);
 	    },function(errorObject) {
 	        console.log("The read failed: " + errorObject.code);
 	    });
 	});
+	function getAndUpdatePlayer(roomname){
+		// Get all player information in the room
+		var jsonWriter = {};
+		for(var x in connections){
+			if(connections[x].room == roomname){
+				var temp_name = connections[x].nickname;
+				jsonWriter[temp_name] = connections[x].score;
+			}
+		}
+		// Emit to the room about new player
+		io.to(roomname).emit("new player", jsonWriter);
+	}
 });
 //REST
 app.get('/', function(request, response) {response.sendFile(__dirname + '/index.html');});

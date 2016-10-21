@@ -59,6 +59,7 @@ function loadScoreBoard(){
 		var score = playerList[player].score;
 		$('.score-board').append("<div class='score' title='" + score + "'id ='score-" + player + "'> " + player + " : " + score + "</div>");
 	}
+	$('#score-' + username).html("<a style='color:white;'>>> </a>" + $("#score-" + username).html());
 	$('.score').first().addClass("rainbow");
 }
 //Score board Functions
@@ -66,23 +67,29 @@ function addScore(userIndex, number){
 	var name = "#score-" + userIndex;
 	var current = parseInt($(name).attr("title"));
 	setScore(userIndex, current + number);
+	return current + " "  + userIndex;
 }
 function setScore(userIndex,target){
 	// UI handler
-	var name = "#score-" + userIndex;
+	var name = "#score-" + userIndex, adjustment;
 	var number, current = parseInt($(name).attr("title"));
-	if(current < target) number = target - current;else return;
+	if(current == target) return;
+	else{
+		number = Math.abs(target - current);
+		if(current < target)adjustment = 1;
+		else if(current > target)adjustment = -1;
+	}
 	$(name).css("transform","scale(1.8,1.8)");
 	for(var x = 0; x < number;x++){
-		var value = parseInt($(name).attr("title"));
 		setTimeout(function(){
-			$(name).html(userIndex + " : " + ++value);
-			$(name).attr(value);
+			var value = parseInt($(name).attr("title")) + adjustment;
+			$(name).html(userIndex + " : " + value);
+			$(name).attr("title", value);
 		}, (500 / number * x));
 	}
 	setTimeout(function(){$(name).css("transform","scale(1,1)");}, 500);
 	//Update and Share
-	score += number;
+	score = target;
 	scoreChanged = true;
-	share();
+	if(username == userIndex)share();
 }

@@ -4,13 +4,13 @@ function establishConnection(){
     //Socket Listener
     socket.on('new player', function(data){
         console.log("New player: ");
-        var temp = {}, newPlayerName;
+        var temp = playerList = {}, newPlayerName;
         for(var one in data){
             temp = {
                 username: newPlayerName = one,
                 score: data[one]
             };
-            addScore(newPlayerName,data[one]);
+            setScore(newPlayerName,data[one]);
             playerList[newPlayerName] = temp;
         }
         loadScoreBoard();
@@ -30,8 +30,10 @@ function share(){
     socket.emit("send data", packageData);
 }
 function handleShare(data){
-    console.log("Handling Share");
-    console.log(data);
+    console.log(">> Handling Share");console.log(data);
+    // data contains: x, y, username, score
+    if(data.score != undefined || data.score != null)
+        setScore(data.username, data.score);
 }
 function joinRoom(roomname, username){
     console.log("-=-=-=-=-=-=-=-=-=-=-=-");
@@ -48,9 +50,10 @@ function joinRoom(roomname, username){
     });
 }
 function isValidCharacter(input){
+    input = input.toLowerCase();
     for(var x = 0;x < input.length;x++){
         var ascii = input.charCodeAt(x);
-        if(ascii == 32 || (ascii >= 48 && ascii <= 57) || (ascii >= 65 && ascii <= 90) || (ascii >= 97 && ascii <= 122)) continue;
+        if(ascii == 32 || (ascii >= 48 && ascii <= 57) || (ascii >= 97 && ascii <= 122)) continue;
         return false;
     }
     return true;

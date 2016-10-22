@@ -8,7 +8,7 @@ var playerSpeed = 200;
 Game.Level1.prototype = {
     create: function(game){
         //This sets the background color
-        this.stage.backgroundColor = '#0FF4C6';
+        this.stage.backgroundColor = '#120309';
        /* //This line sets the gravity
         this.physics.arcade.gravity.y = 1400;*/
         //Sets the foundations of the map
@@ -47,7 +47,7 @@ Game.Level1.prototype = {
     },
     update: function(){
         this.physics.arcade.collide(player,layer);
-
+        player.scale.setTo(0.1,0.1);
         if(controls.right.isDown){
             player.animations.play('run');
             player.scale.setTo(1,1);

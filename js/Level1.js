@@ -38,30 +38,25 @@ Game.Level1.prototype = {
         };
     },
     update: function(){
-        for(one in playerManager){
-            console.log(one);
+        //Collision with wall
+        for(one in playerManager)
             this.physics.arcade.collide(playerManager[one],layer);
-        }
 
-        if(controls.right.isDown)move("right", username);
-        if(controls.left.isDown){
-            move("left", username);
-        }
-        if(controls.up.isDown){
-            move("up",username);
-        }
-        if(controls.down.isDown){
-            move("down",username);
-        }
+        //User control
+        if(controls.right.isDown) move("right", username);
+        if(controls.left.isDown)  move("left", username);
+        if(controls.up.isDown)    move("up",username);
+        if(controls.down.isDown)  move("down",username);
+
         // When Player is idleAnimation
         idleAnimation(username);
         // Travel through Dimension
         travelThroughDimension(username);
     },
     getCoin: function(){
-        for(one in playerManager){
+        // Coin & Player collision
+        for(one in playerManager)
             map.putTile(-1, layer.getTileX(playerManager[one].x), layer.getTileY(playerManager[one].y));
-        }
     }
 }
 function loadPlayerManager(){

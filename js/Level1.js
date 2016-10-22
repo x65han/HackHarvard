@@ -8,11 +8,11 @@ var playerSpeed = 200;
 Game.Level1.prototype = {
     create: function(game){
         //This sets the background color
-        this.stage.backgroundColor = '#3A5963';
+        this.stage.backgroundColor = '#0FF4C6';
        /* //This line sets the gravity
         this.physics.arcade.gravity.y = 1400;*/
         //Sets the foundations of the map
-        map = this.add.tilemap('map', 64,64);
+        map = this.add.tilemap('map', 10,10);
         //Adding the image to the image
         map.addTilesetImage('tileset');
 

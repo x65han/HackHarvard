@@ -16,7 +16,7 @@ window.onload = function(){
 			if(!userLoggedIn && key != 13)$(".login-instruction").html('');
 	    }
 			//Game Pre-boot
-			game = new Phaser.Game(1920,1000, Phaser.CANVAS,'');
+			game = new Phaser.Game(1000,500, Phaser.CANVAS,'');
 			game.state.add('Boot', Game.Boot);
 			game.state.add('Preloader', Game.Preloader);
 			game.state.add('MainMenu', Game.MainMenu);

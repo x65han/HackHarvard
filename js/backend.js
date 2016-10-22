@@ -5,7 +5,10 @@ function establishConnection(){
     socket.on('new player', function(data){
         console.log("New player: ");
         console.log(data);
-        var temp = playerList = {}, newPlayerName;
+        var temp = {};
+        playerList = {};
+        playerManager = {};
+        var newPlayerName;
         for(var one in data){
             temp = {
                 username: newPlayerName = one,
@@ -13,6 +16,8 @@ function establishConnection(){
             };
             setScore(newPlayerName,data[one]);
             playerList[newPlayerName] = temp;
+            console.log(engine == undefined);
+            if(engine != undefined) loadPlayerManager();
         }
         loadScoreBoard();
         console.log(playerList);

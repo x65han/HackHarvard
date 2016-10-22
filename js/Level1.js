@@ -5,10 +5,11 @@ var drag, button, cache = "right";
 var controls = {};
 var playerSpeed = 100;
 var coins;
-/*var coinLayer1, coinLayer2;*/
+var playerManager = {};
 
 Game.Level1.prototype = {
     create: function(game){
+        engine = this;
         //This sets the background color
         this.stage.backgroundColor = '#120309';
         $("body").css("background-color","#120309");
@@ -23,139 +24,118 @@ Game.Level1.prototype = {
         //for main layer
         layer = map.createLayer(0);
         layer.resizeWorld();
-        map.setCollisionBetween(0,300);
+        map.setCollisionBetween(0,15);
+        map.setTileIndexCallback(66,this.getCoin, this);
+        map.setTileIndexCallback(63,this.getCoin, this);
 
-        /*coins = game.add.group();
-        coins.enableB*/
-        //for coin layer
+        loadPlayerManager();
 
-
-        /*coinLayer1 = this.add.tilemap('coinMap',10,10);
-        coinLayer1.addTilesetImage('coins');
-        coinLayer2 = coinLayer1.createLayer(0);
-        coinLayer2.resizeWorld();
-        //this is suppose to remove the coins
-        coinLayer1.setTileIndexCallback(998,this.getCoin,this);*/
-
-
-
-        //sets the location of the player
-        player = this.add.sprite(0,250,'player');
-        player.animations.add('horizontalRun',[0,2],8,true);
-        player.animations.add('verticalRun',[1,2],  8,true);
-        player.animations.add('horizontal',[0],     8,true);
-        player.animations.add('vertical',[1],       8,true);
-		player.animations.add('open',[2],           8,true);
-        //when the player moves, it doesn't move too much
-        player.anchor.setTo(0.5,0.5);
-        this.physics.arcade.enable(player);
-
-        //camera follows the player
-        this.camera.follow(player);
-
-        player.body.collideWorldBounds = true;
         controls = {
             up: this.input.keyboard.addKey(Phaser.Keyboard.W),
             down: this.input.keyboard.addKey(Phaser.Keyboard.S),
             right: this.input.keyboard.addKey(Phaser.Keyboard.D),
             left: this.input.keyboard.addKey(Phaser.Keyboard.A),
         };
-
-        /*button = this.add.button(this.world.centerX -95, this.world.centerY + 200, 'buttons', function(){
-            console.log('pressed');
-        }, this,2,1,0);*/
-
-        //making the button move with the camera
-        /*button.fixedToCamera = true;*/
     },
     update: function(){
         this.physics.arcade.collide(player,layer);
 
-        console.log(Math.round(player.body.x) + " " + Math.round(player.body.y) + " " + Math.round(player.body.speed) + " " + cache);
-        if(controls.right.isDown){
-            move("right");
-        }
+        if(controls.right.isDown)move("right", username);
         if(controls.left.isDown){
-            move("left");
+            move("left", username);
         }
         if(controls.up.isDown){
-            move("up");
+            move("up",username);
         }
         if(controls.down.isDown){
-            move("down");
+            move("down",username);
         }
         // When Player is idleAnimation
-        idleAnimation();
+        idleAnimation(username);
         // Travel through Dimension
-        travelThroughDimension();
+        travelThroughDimension(username);
     },
-
-    getCoin: function(){ coinLayer1.putTile(-1,coinLayer2.getTileX(player.x),coinLayer2.getTileY(player.y));
+    getCoin: function(){
+        map.putTile(-1,layer.getTileX(player.x),layer.getTileY(player.y));
     }
-
 }
-
-function travelThroughDimension(){
+function loadPlayerManager(){
+    for(var one in playerList){
+        var temp = engine.add.sprite(0,250,'player');
+        temp.animations.add('horizontalRun',[0,2],8,true);
+        temp.animations.add('verticalRun',[1,2],  8,true);
+        temp.animations.add('horizontal',[0],     8,true);
+        temp.animations.add('vertical',[1],       8,true);
+        temp.animations.add('open',[2],           8,true);
+        temp.anchor.setTo(0.5,0.5);
+        temp.scale.setTo(0.4, 0.4);
+        engine.physics.arcade.enable(temp);
+        temp.body.collideWorldBounds = true;
+        console.log(temp);
+        playerManager[one] = temp;
+    }
+}
+function travelThroughDimension(target){
     // Travel through Dimension
-    if(player.body.y <= 252 || player.body.y >= 220){
-        if(player.body.x < 5){
-            player.body.x = 980;
-            move("left");
-        }else if(player.body.x > 980){
-            player.body.x = 5;
-            move("right");
+    if(playerManager[target].body.y <= 252 || playerManager[target].body.y >= 220){
+        if(playerManager[target].body.x < 5){
+            playerManager[target].body.x = 980;
+            move("left", target);
+        }else if(playerManager[target].body.x > 980){
+            playerManager[target].body.x = 5;
+            move("right", target);
         }
     }
 }
-function idleAnimation(){
+function idleAnimation(target){
     //When Player is idle
-    if(player.body.speed == 0){
+    if(playerManager[target].body.speed == 0){
         switch(cache){
             case "up":
-                player.animations.play("vertical");
-                player.scale.setTo(0.4, 0.4);
+                playerManager[target].animations.play("vertical");
+                playerManager[target].scale.setTo(0.4, 0.4);
                 break;
             case "down":
-                player.animations.play("vertical");
-                player.scale.setTo(0.4, -0.4);
+                playerManager[target].animations.play("vertical");
+                playerManager[target].scale.setTo(0.4, -0.4);
                 break;
             case "left":
-                player.animations.play("horizontal");
-                player.scale.setTo(-0.4,0.4);
+                playerManager[target].animations.play("horizontal");
+                playerManager[target].scale.setTo(-0.4,0.4);
                 break;
             case "right":
-                player.animations.play("horizontal");
-                player.scale.setTo(0.4,0.4);
+                playerManager[target].animations.play("horizontal");
+                playerManager[target].scale.setTo(0.4,0.4);
                 break;
         }
     }
 }
-function move(input){
+function move(input,target){
     cache = input = input.toLowerCase();
     switch(input){
         case "up":
-            player.animations.play('verticalRun');
-            player.scale.setTo(0.4, 0.4);
-            player.body.velocity.y = -1 * Math.abs(playerSpeed);
-            player.body.velocity.x = 0;
+            playerManager[target].animations.play('verticalRun');
+            playerManager[target].scale.setTo(0.4, 0.4);
+            playerManager[target].body.velocity.y = -1 * Math.abs(playerSpeed);
+            playerManager[target].body.velocity.x = 0;
             break;
         case "down":
-            player.animations.play('verticalRun');
-            player.scale.setTo(0.4, -0.4);
-            player.body.velocity.y = Math.abs(playerSpeed);
-            player.body.velocity.x = 0;
+            playerManager[target].animations.play('verticalRun');
+            playerManager[target].scale.setTo(0.4, -0.4);
+            playerManager[target].body.velocity.y = Math.abs(playerSpeed);
+            playerManager[target].body.velocity.x = 0;
             break;
         case "left":
-            player.animations.play('horizontalRun');
-            player.scale.setTo(-0.4,0.4);
-            player.body.velocity.x = -1 * Math.abs(playerSpeed);
-            player.body.velocity.y = 0;
+            playerManager[username].animations.play('horizontalRun');
+            playerManager[username].scale.setTo(-0.4,0.4);
+            playerManager[username].body.velocity.x = -1 * Math.abs(playerSpeed);
+            playerManager[username].body.velocity.y = 0;
             break;
         case "right":
-            player.animations.play('horizontalRun');
-            player.scale.setTo(0.4,0.4);
-            player.body.velocity.x = Math.abs(playerSpeed);
-            player.body.velocity.y = 0;
+            playerManager[target].animations.play('horizontalRun');
+            playerManager[target].scale.setTo(0.4,0.4);
+            playerManager[target].body.velocity.x = Math.abs(playerSpeed);
+            playerManager[target].body.velocity.y = 0;
             break;
     }
 }

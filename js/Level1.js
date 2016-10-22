@@ -57,6 +57,7 @@ Game.Level1.prototype = {
         // Coin & Player collision
         for(one in playerManager)
             map.putTile(-1, layer.getTileX(playerManager[one].x), layer.getTileY(playerManager[one].y));
+        addScore(username, 10);
     }
 }
 setInterval(function(){
@@ -85,7 +86,8 @@ function loadPlayerManager(){
 }
 function travelThroughDimension(target){
     // Travel through Dimension
-    if(playerManager[target].y <= 252 || playerManager[target].y >= 220){
+    console.log(playerManager[target].x + " <> " + playerManager[target].y);
+    if(playerManager[target].y <= 261 && playerManager[target].y >= 229){
         if(playerManager[target].x < 10){
             playerManager[target].x = 980;
             move("left", target);

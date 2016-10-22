@@ -4,7 +4,8 @@ var map, layer, player;
 var drag, button, cache = "right";
 var controls = {};
 var playerSpeed = 200;
-var coinLayer1, coinLayer2;
+var coins;
+/*var coinLayer1, coinLayer2;*/
 
 Game.Level1.prototype = {
     create: function(game){
@@ -23,24 +24,28 @@ Game.Level1.prototype = {
         layer = map.createLayer(0);
         layer.resizeWorld();
         map.setCollisionBetween(0,300);
-
+        
+        coins = game.add.group();
+        coins.enableB
         //for coin layer
-        coinLayer1 = this.add.tilemap('coinMap',10,10);
+        
+        
+        /*coinLayer1 = this.add.tilemap('coinMap',10,10);
         coinLayer1.addTilesetImage('coins');
         coinLayer2 = coinLayer1.createLayer(0);
         coinLayer2.resizeWorld();
         //this is suppose to remove the coins
-        coinLayer1.setTileIndexCallback(998,this.getCoin,this);
+        coinLayer1.setTileIndexCallback(998,this.getCoin,this);*/
 
 
 
         //sets the location of the player
         player = this.add.sprite(0,250,'player');
-        player.animations.add('horizontalRun',[0,2],4,true);
-        player.animations.add('verticalRun',[1,2],4,true);
-        player.animations.add('horizontal',[0],1,true);
-        player.animations.add('vertical',[1],1,true);
-		player.animations.add('open',[2],1,true);
+        player.animations.add('horizontalRun',[0,2],8,true);
+        player.animations.add('verticalRun',[1,2],  8,true);
+        player.animations.add('horizontal',[0],     8,true);
+        player.animations.add('vertical',[1],       8,true);
+		player.animations.add('open',[2],           8,true);
         //when the player moves, it doesn't move too much
         player.anchor.setTo(0.5,0.5);
         player.scale.setTo(0.4,0.4);
@@ -67,7 +72,7 @@ Game.Level1.prototype = {
     update: function(){
         this.physics.arcade.collide(player,layer);
 
-        if(player.body.speed == 0)console.log(Math.round(player.body.x) + " " + Math.round(player.body.y) + " " + Math.round(player.body.speed) + " " + cache);
+        console.log(Math.round(player.body.x) + " " + Math.round(player.body.y) + " " + Math.round(player.body.speed) + " " + cache);
         if(controls.right.isDown){
             move("right");
         }
@@ -83,15 +88,7 @@ Game.Level1.prototype = {
         // When Player is idleAnimation
         idleAnimation();
         // Travel through Dimension
-        if(player.body.speed == 0 && (player.body.y <= 252 || player.body.y >= 220)){
-            if(player.body.x < 5){
-                player.body.x = 980;
-                move("left");
-            }else if(player.body.x > 980){
-                player.body.x = 0;
-                move("right");
-            }
-        }
+        travelThroughDimension();
     },
 
     getCoin: function(){ coinLayer1.putTile(-1,coinLayer2.getTileX(player.x),coinLayer2.getTileY(player.y));
@@ -99,6 +96,18 @@ Game.Level1.prototype = {
 
 }
 
+function travelThroughDimension(){
+    // Travel through Dimension
+    if(player.body.y <= 252 || player.body.y >= 220){
+        if(player.body.x < 5){
+            player.body.x = 980;
+            move("left");
+        }else if(player.body.x > 980){
+            player.body.x = 5;
+            move("right");
+        }
+    }
+}
 function idleAnimation(){
     //When Player is idle
     if(player.body.speed == 0){

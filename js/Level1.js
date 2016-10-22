@@ -1,7 +1,7 @@
 Game.Level1 = function(game){};
 var enemy1,enemy2,enemy3,enemy4;
 var map, layer, player;
-var drag, button;
+var drag, button, cache = "right";
 var controls = {};
 var playerSpeed = 200;
 var coinLayer1, coinLayer2;
@@ -11,7 +11,7 @@ Game.Level1.prototype = {
         //This sets the background color
         this.stage.backgroundColor = '#120309';
         $("body").css("background-color","#120309");
-        $("body").css("padding-top", ((window.innerHeight - $('canvas').height()) / 2) + "px");
+        setTimeout(function(){$("body").css("padding-top", ((window.innerHeight - $('canvas').height()) / 2) + "px");}, 400);
        /* //This line sets the gravity
         this.physics.arcade.gravity.y = 1400;*/
         //Sets the foundations of the map
@@ -67,8 +67,7 @@ Game.Level1.prototype = {
     update: function(){
         this.physics.arcade.collide(player,layer);
 
-        if(player.body.speed != 0)console.log(Math.round(player.body.x) + " " + Math.round(player.body.y) + " " + Math.round(player.body.speed) + " " + cache);
-        else  player.animations.play('horizontal');
+        if(player.body.speed == 0)console.log(Math.round(player.body.x) + " " + Math.round(player.body.y) + " " + Math.round(player.body.speed) + " " + cache);
         if(controls.right.isDown){
             move("right");
         }
@@ -81,18 +80,18 @@ Game.Level1.prototype = {
         if(controls.down.isDown){
             move("down");
         }
-        //If up button is pressed and player is touching the ground and if the timer is 0
-        /*if((controls.up.isDown) && (player.body.onFloor() || player.body.touching.down) && this.time.now > jumpTimer){
-            player.body.velocity.y = -900;
-            jumpTimer = this.time.now + 800;
-            player.animations.play('jump');
+        // When Player is idleAnimation
+        idleAnimation();
+        // Travel through Dimension
+        if(player.body.speed == 0 && (player.body.y <= 252 || player.body.y >= 220)){
+            if(player.body.x < 5){
+                player.body.x = 980;
+                move("left");
+            }else if(player.body.x > 980){
+                player.body.x = 0;
+                move("right");
+            }
         }
-        //if the player is not moving at all
-        if (player.body.velocity.x == 0 && player.body.velocity.y ==0){
-            player.animations.play('idle');
-        }*/
-
-
     },
 
     getCoin: function(){ coinLayer1.putTile(-1,coinLayer2.getTileX(player.x),coinLayer2.getTileY(player.y));
@@ -100,6 +99,29 @@ Game.Level1.prototype = {
 
 }
 
+function idleAnimation(){
+    //When Player is idle
+    if(player.body.speed == 0){
+        switch(cache){
+            case "up":
+                player.animations.play("vertical");
+                player.scale.setTo(0.4, 0.4);
+                break;
+            case "down":
+                player.animations.play("vertical");
+                player.scale.setTo(0.4, -0.4);
+                break;
+            case "left":
+                player.animations.play("horizontal");
+                player.scale.setTo(-0.4,0.4);
+                break;
+            case "right":
+                player.animations.play("horizontal");
+                player.scale.setTo(0.4,0.4);
+                break;
+        }
+    }
+}
 function move(input){
     cache = input = input.toLowerCase();
     switch(input){

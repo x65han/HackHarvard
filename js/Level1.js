@@ -9,6 +9,8 @@ Game.Level1.prototype = {
     create: function(game){
         //This sets the background color
         this.stage.backgroundColor = '#120309';
+        $("body").css("background-color","#120309");
+        $("body").css("padding-top", ((window.innerHeight - $('canvas').height()) / 2) + "px");
        /* //This line sets the gravity
         this.physics.arcade.gravity.y = 1400;*/
         //Sets the foundations of the map
@@ -18,13 +20,13 @@ Game.Level1.prototype = {
 
         layer = map.createLayer(0);
         layer.resizeWorld();
-        map.setCollisionBetween(0,2);
+        map.setCollisionBetween(-1,154);
 
         //sets the location of the player
-        player = this.add.sprite(200,480,'player');
+        player = this.add.sprite(100,200,'player');
         //when the player moves, it doesn't move too much
         player.anchor.setTo(0.5,0.5);
-
+        player.scale.setTo(0.4,0.4);
         this.physics.arcade.enable(player);
 
         //camera follows the player
@@ -47,10 +49,10 @@ Game.Level1.prototype = {
     },
     update: function(){
         this.physics.arcade.collide(player,layer);
-        player.scale.setTo(0.1,0.1);
+        
         if(controls.right.isDown){
             player.animations.play('run');
-            player.scale.setTo(1,1);
+            player.scale.setTo(0.4,0.4);
             if(playerSpeed < 0){
                 playerSpeed *= -1;
             }
@@ -59,7 +61,7 @@ Game.Level1.prototype = {
         }
         if(controls.left.isDown){
             player.animations.play('run');
-            player.scale.setTo(-1,1);
+            player.scale.setTo(-0.4,0.4);
             if(playerSpeed > 0){
                 playerSpeed *= -1;
             }
@@ -68,7 +70,7 @@ Game.Level1.prototype = {
 
         }
         if(controls.up.isDown){
-            player.scale.setTo(-1,1);
+            player.scale.setTo(0.4,0.4);
             if(playerSpeed > 0){
                 playerSpeed *= -1;
             }
@@ -76,7 +78,7 @@ Game.Level1.prototype = {
             player.body.velocity.x = 0;
         }
         if(controls.down.isDown){
-            player.scale.setTo(-1,1);
+            player.scale.setTo(-0.4,0.4);
             if(playerSpeed < 0){
                 playerSpeed *= -1;
             }

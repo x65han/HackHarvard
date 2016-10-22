@@ -86,7 +86,6 @@ function loadPlayerManager(){
 }
 function travelThroughDimension(target){
     // Travel through Dimension
-    console.log(playerManager[target].x + " <> " + playerManager[target].y);
     if(playerManager[target].y <= 261 && playerManager[target].y >= 229){
         if(playerManager[target].x < 10){
             playerManager[target].x = 980;

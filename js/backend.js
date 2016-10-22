@@ -34,7 +34,6 @@ function share(){
     }
     if(scoreChanged)packageData.score = score; scoreChanged = false;
     socket.emit("send data", packageData);
-    console.log(username + " " + packageData.x + " " + packageData.y);
 }
 function handleShare(data){
     // console.log(">> Handling Share "  + data.username);

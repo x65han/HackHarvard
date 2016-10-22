@@ -24,6 +24,11 @@ Game.Level1.prototype = {
 
         //sets the location of the player
         player = this.add.sprite(0,250,'player');
+        player.animations.add('horizontalRun',[0,2],4,true);
+        player.animations.add('verticalRun',[1,2],4,true);
+        player.animations.add('horizontal',[0],1,true);
+        player.animations.add('vertical',[1],1,true);
+		player.animations.add('open',[2],1,true);
         //when the player moves, it doesn't move too much
         player.anchor.setTo(0.5,0.5);
         player.scale.setTo(0.4,0.4);
@@ -49,9 +54,9 @@ Game.Level1.prototype = {
     },
     update: function(){
         this.physics.arcade.collide(player,layer);
-        
+
         if(controls.right.isDown){
-            player.animations.play('run');
+            player.animations.play('horizontalRun');
             player.scale.setTo(0.4,0.4);
             if(playerSpeed < 0){
                 playerSpeed *= -1;
@@ -60,7 +65,7 @@ Game.Level1.prototype = {
             player.body.velocity.y = 0;
         }
         if(controls.left.isDown){
-            player.animations.play('run');
+            player.animations.play('horizontalRun');
             player.scale.setTo(-0.4,0.4);
             if(playerSpeed > 0){
                 playerSpeed *= -1;
@@ -70,7 +75,8 @@ Game.Level1.prototype = {
 
         }
         if(controls.up.isDown){
-            player.scale.setTo(0.4,0.4);
+            player.animations.play('verticalRun');
+            player.scale.setTo(0.4, 0.4);
             if(playerSpeed > 0){
                 playerSpeed *= -1;
             }
@@ -78,7 +84,8 @@ Game.Level1.prototype = {
             player.body.velocity.x = 0;
         }
         if(controls.down.isDown){
-            player.scale.setTo(-0.4,0.4);
+            player.animations.play('verticalRun');
+            player.scale.setTo(0.4, -0.4);
             if(playerSpeed < 0){
                 playerSpeed *= -1;
             }

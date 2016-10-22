@@ -60,6 +60,7 @@ Game.Level1.prototype = {
     }
 }
 function loadPlayerManager(){
+    for(var one in playerManager)playerManager[one].kill();
     for(var one in playerList){
         var temp = engine.add.sprite(0,250,'player');
         temp.animations.add('horizontalRun',[0,2],8,true);

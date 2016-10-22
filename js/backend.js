@@ -7,7 +7,6 @@ function establishConnection(){
         console.log(data);
         var temp = {};
         playerList = {};
-        playerManager = {};
         var newPlayerName;
         for(var one in data){
             temp = {

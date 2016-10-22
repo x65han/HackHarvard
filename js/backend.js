@@ -4,6 +4,7 @@ function establishConnection(){
     //Socket Listener
     socket.on('new player', function(data){
         console.log("New player: ");
+        console.log(data);
         var temp = playerList = {}, newPlayerName;
         for(var one in data){
             temp = {

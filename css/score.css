@@ -1,5 +1,4 @@
 .score-board{
-    height:100px;
     background:transparent;
     position:absolute;
     text-align:right;
@@ -8,7 +7,10 @@
     cursor:pointer;
 }
 .score{
-    margin-right:20px;
+    right:50px;
+    position:absolute;
     color:white;
+    width:150px;
+    height:30px;
     font-size:20px;
 }

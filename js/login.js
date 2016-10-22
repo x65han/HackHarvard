@@ -59,7 +59,7 @@ function loadScoreBoard(){
 		var score = playerList[player].score;
 		$('.score-board').append("<div class='score' title='" + score + "'id ='score-" + player + "'> " + player + " : " + score + "</div>");
 	}
-	$('#score-' + username).html("<a style='color:white;'>>> </a>" + $("#score-" + username).html());
+	$('#score-' + username).html("&gt;&gt;" + $("#score-" + username).html());
 	$('.score').first().addClass("rainbow");
 }
 //Score board Functions
@@ -79,7 +79,6 @@ function setScore(userIndex,target){
 		if(current < target)adjustment = 1;
 		else if(current > target)adjustment = -1;
 	}
-	$(name).css("transform","scale(1.8,1.8)");
 	for(var x = 0; x < number;x++){
 		setTimeout(function(){
 			var value = parseInt($(name).attr("title")) + adjustment;
@@ -87,9 +86,33 @@ function setScore(userIndex,target){
 			$(name).attr("title", value);
 		}, (500 / number * x));
 	}
-	setTimeout(function(){$(name).css("transform","scale(1,1)");}, 500);
+	setTimeout(function(){
+		if($(name).html().toString().includes("&") == false && username == userIndex)
+			$(name).html("&gt;&gt;" + $(name).html());
+	}, 500);
 	//Update and Share
 	score = target;
 	scoreChanged = true;
 	if(username == userIndex)share();
+	orderScoreBoard();
+ }
+function orderScoreBoard(){
+	//re-order score-board
+	setTimeout(function(){
+		var score_array_raw = document.getElementsByClassName("score");
+		var score_array = [];
+		for(var x = 0;x < score_array_raw.length;x++)score_array.push(score_array_raw[x]);
+		const chances = score_array.length;
+		for(var o = 0; o < chances;o++){
+			var max = 0,max_index = 0;
+			for(var i = 0; i < score_array.length;i++){
+				if(parseInt(score_array[i].title) >= max){
+					max = parseInt(score_array[i].title);
+					max_index = i;
+				}
+			}
+			score_array[max_index].style.transform = "translateY(" + o * 30 + "px)";
+			score_array.splice(max_index,1);
+		}
+	}, 501);
 }

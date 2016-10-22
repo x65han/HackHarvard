@@ -20,10 +20,10 @@ Game.Level1.prototype = {
 
         layer = map.createLayer(0);
         layer.resizeWorld();
-        map.setCollisionBetween(-1,154);
+        map.setCollisionBetween(0,300);
 
         //sets the location of the player
-        player = this.add.sprite(100,200,'player');
+        player = this.add.sprite(0,250,'player');
         //when the player moves, it doesn't move too much
         player.anchor.setTo(0.5,0.5);
         player.scale.setTo(0.4,0.4);

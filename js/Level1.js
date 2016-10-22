@@ -4,6 +4,7 @@ var map, layer, player;
 var drag, button;
 var controls = {};
 var playerSpeed = 200;
+var coinLayer1, coinLayer2;
 
 Game.Level1.prototype = {
     create: function(game){
@@ -17,11 +18,22 @@ Game.Level1.prototype = {
         map = this.add.tilemap('map', 10,10);
         //Adding the image to the image
         map.addTilesetImage('tileset');
-
+        //Sets the foundation for the coins
+        //for main layer
         layer = map.createLayer(0);
         layer.resizeWorld();
         map.setCollisionBetween(0,300);
-
+        
+        //for coin layer
+        coinLayer1 = this.add.tilemap('coinMap',10,10);
+        coinLayer1.addTilesetImage('coins');
+        coinLayer2 = coinLayer1.createLayer(0);
+        coinLayer2.resizeWorld();
+        //this is suppose to remove the coins
+        coinLayer1.setTileIndexCallback(998,this.getCoin,this);
+        
+        
+        
         //sets the location of the player
         player = this.add.sprite(0,250,'player');
         player.animations.add('horizontalRun',[0,2],4,true);
@@ -106,16 +118,8 @@ Game.Level1.prototype = {
 
     },
 
-   /* resetPlayer:function(){
-
-        player.reset(100,560);
-
-    },*/
-
-    /*getCoin: function(){
-        map.putTile(-1,layer.getTileX(player.x), layer.getTileY(player.y));
-    }*/
-
+    getCoin: function(){ coinLayer1.putTile(-1,coinLayer2.getTileX(player.x),coinLayer2.getTileY(player.y));
+    }
 
 }
 //checking if they are overlapping

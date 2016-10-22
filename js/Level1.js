@@ -3,7 +3,7 @@ var enemy1,enemy2,enemy3,enemy4;
 var map, layer, player;
 var drag, button, cache = "right";
 var controls = {};
-var playerSpeed = 200;
+var playerSpeed = 100;
 var coins;
 /*var coinLayer1, coinLayer2;*/
 
@@ -24,12 +24,12 @@ Game.Level1.prototype = {
         layer = map.createLayer(0);
         layer.resizeWorld();
         map.setCollisionBetween(0,300);
-        
+
         coins = game.add.group();
         coins.enableB
         //for coin layer
-        
-        
+
+
         /*coinLayer1 = this.add.tilemap('coinMap',10,10);
         coinLayer1.addTilesetImage('coins');
         coinLayer2 = coinLayer1.createLayer(0);
@@ -48,7 +48,6 @@ Game.Level1.prototype = {
 		player.animations.add('open',[2],           8,true);
         //when the player moves, it doesn't move too much
         player.anchor.setTo(0.5,0.5);
-        player.scale.setTo(0.4,0.4);
         this.physics.arcade.enable(player);
 
         //camera follows the player
@@ -159,6 +158,11 @@ function move(input){
             player.body.velocity.y = 0;
             break;
     }
+}
+// Earn Point Audio
+function playCoinAudio(){
+    var coinAudio = new Audio('img/coin.mp3');
+    coinAudio.play();
 }
 
 //checking if they are overlapping

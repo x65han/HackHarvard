@@ -6,6 +6,13 @@ var playerList = {};
 //incase anything doesn't load
 window.onload = function(){
 		console.log("Loading Done");
+		// Background Music
+		var bgm = new Audio('img/dubstep.mp3');
+		bgm.addEventListener('ended', function() {
+		    this.currentTime = 0;
+		    this.play();
+		}, false);
+		bgm.play();
 		showLoginScreen(true);
 	    //Connect to socket io (backend)
 	    establishConnection();

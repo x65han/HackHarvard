@@ -34,7 +34,10 @@ io.on('connection', function(socket){
 	// socket.io Functions
 	socket.on('send data', function(data, response){
 		if(socket.nickname == undefined || socket.room == undefined) return false;
+		if(data.x == socket.px && data.y == socket.py) return;
 		data.username = socket.nickname;
+		socket.px = data.x;
+		socket.py = data.y;
 		io.to(socket.room).emit("receive data", data);
 		console.log("transferring data -> ");
 		if(data.score != undefined){

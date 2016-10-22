@@ -27,18 +27,40 @@ function establishConnection(){
     });
 }
 function share(){
+    if(playerManager == undefined || playerManager[username] == undefined)return;
     var packageData = {
-        x : 612,
-        y : 798,
+        x : Math.round(playerManager[username].x),
+        y : Math.round(playerManager[username].y)
     }
     if(scoreChanged)packageData.score = score; scoreChanged = false;
     socket.emit("send data", packageData);
+    console.log(username + " " + packageData.x + " " + packageData.y);
 }
 function handleShare(data){
-    console.log(">> Handling Share");console.log(data);
+    // console.log(">> Handling Share "  + data.username);
     // data contains: x, y, username, score
-    if(data.score != undefined || data.score != null)
-        setScore(data.username, data.score);
+    if(data.score != undefined || data.score != null) setScore(data.username, data.score);
+    if(data.x > playerManager[data.username].x){
+        playerManager[data.username].cache = "right";
+        playerManager[data.username].animations.play('horizontalRun');
+        playerManager[data.username].scale.setTo(0.4,0.4);
+    }else if(data.x < playerManager[data.username].x){
+        playerManager[data.username].cache = "left";
+        playerManager[data.username].animations.play('horizontalRun');
+        playerManager[data.username].scale.setTo(-0.4,0.4);
+    }
+    if(data.y > playerManager[data.username].y){
+        playerManager[data.username].cache = "down";
+        playerManager[data.username].animations.play('verticalRun');
+        playerManager[data.username].scale.setTo(0.4, -0.4);
+    }else if(data.y < playerManager[data.username].y){
+        playerManager[data.username].cache = "up";
+        playerManager[data.username].animations.play('verticalRun');
+        playerManager[data.username].scale.setTo(0.4, 0.4);
+    }
+    playerManager[data.username].x = data.x;
+    playerManager[data.username].y = data.y;
+    // console.log(data.username + " >> " + playerManager[data.username].x + " - " + data.x + " :: "    + playerManager[data.username].y + " - " + data.y);
 }
 function joinRoom(roomname, username){
     console.log("-=-=-=-=-=-=-=-=-=-=-=-");

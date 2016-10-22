@@ -94,7 +94,6 @@ function setScore(userIndex,target){
 	score = target;
 	scoreChanged = true;
 	if(username == userIndex){
-		share();
 		playCoinAudio();
 	}
 	orderScoreBoard();

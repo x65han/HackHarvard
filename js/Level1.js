@@ -44,14 +44,14 @@ Game.Level1.prototype = {
 
         //User control
         if(controls.right.isDown) move("right", username);
-        if(controls.left.isDown)  move("left", username);
-        if(controls.up.isDown)    move("up",username);
-        if(controls.down.isDown)  move("down",username);
+        if(controls.left.isDown)  move("left",  username);
+        if(controls.up.isDown)    move("up",    username);
+        if(controls.down.isDown)  move("down",  username);
 
         // When Player is idleAnimation
-        idleAnimation(username);
+        for(var one in playerManager)idleAnimation(one);
         // Travel through Dimension
-        travelThroughDimension(username);
+        for(var one in playerManager)travelThroughDimension(one);
     },
     getCoin: function(){
         // Coin & Player collision
@@ -59,31 +59,38 @@ Game.Level1.prototype = {
             map.putTile(-1, layer.getTileX(playerManager[one].x), layer.getTileY(playerManager[one].y));
     }
 }
+setInterval(function(){
+    if(username == undefined || playerManager[username] == undefined) return;
+    if(playerManager[username].body.speed != 0) share();
+}, 1);
 function loadPlayerManager(){
-    for(var one in playerManager)playerManager[one].kill();
+    for(var one in playerManager)   playerManager[one].kill();
+    playerManager = {};
     for(var one in playerList){
-        var temp = engine.add.sprite(0,250,'player');
+        console.log(one);
+        var temp = engine.add.sprite(30,30,'player');
         temp.animations.add('horizontalRun',[0,2],8,true);
         temp.animations.add('verticalRun',[1,2],  8,true);
         temp.animations.add('horizontal',[0],     8,true);
         temp.animations.add('vertical',[1],       8,true);
-        temp.animations.add('open',[2],           8,true);
         temp.anchor.setTo(0.5,0.5);
         temp.scale.setTo(0.4, 0.4);
+        temp.cache = "right";
         engine.physics.arcade.enable(temp);
         temp.body.collideWorldBounds = true;
-        console.log(temp);
+        temp.body.velocity.x = 0;
+        temp.body.velocity.y = 0;
         playerManager[one] = temp;
     }
 }
 function travelThroughDimension(target){
     // Travel through Dimension
-    if(playerManager[target].body.y <= 252 || playerManager[target].body.y >= 220){
-        if(playerManager[target].body.x < 5){
-            playerManager[target].body.x = 980;
+    if(playerManager[target].y <= 252 || playerManager[target].y >= 220){
+        if(playerManager[target].x < 10){
+            playerManager[target].x = 980;
             move("left", target);
-        }else if(playerManager[target].body.x > 980){
-            playerManager[target].body.x = 5;
+        }else if(playerManager[target].x > 980){
+            playerManager[target].x = 10;
             move("right", target);
         }
     }
@@ -112,7 +119,7 @@ function idleAnimation(target){
     }
 }
 function move(input,target){
-    cache = input = input.toLowerCase();
+    playerManager[target].cache = input.toLowerCase();
     switch(input){
         case "up":
             playerManager[target].animations.play('verticalRun');
@@ -127,10 +134,10 @@ function move(input,target){
             playerManager[target].body.velocity.x = 0;
             break;
         case "left":
-            playerManager[username].animations.play('horizontalRun');
-            playerManager[username].scale.setTo(-0.4,0.4);
-            playerManager[username].body.velocity.x = -1 * Math.abs(playerSpeed);
-            playerManager[username].body.velocity.y = 0;
+            playerManager[target].animations.play('horizontalRun');
+            playerManager[target].scale.setTo(-0.4,0.4);
+            playerManager[target].body.velocity.x = -1 * Math.abs(playerSpeed);
+            playerManager[target].body.velocity.y = 0;
             break;
         case "right":
             playerManager[target].animations.play('horizontalRun');

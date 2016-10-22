@@ -93,7 +93,10 @@ function setScore(userIndex,target){
 	//Update and Share
 	score = target;
 	scoreChanged = true;
-	if(username == userIndex)share();
+	if(username == userIndex){
+		share();
+		playCoinAudio();
+	}
 	orderScoreBoard();
  }
 function orderScoreBoard(){

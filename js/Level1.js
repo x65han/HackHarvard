@@ -38,7 +38,10 @@ Game.Level1.prototype = {
         };
     },
     update: function(){
-        this.physics.arcade.collide(player,layer);
+        for(one in playerManager){
+            console.log(one);
+            this.physics.arcade.collide(playerManager[one],layer);
+        }
 
         if(controls.right.isDown)move("right", username);
         if(controls.left.isDown){
@@ -56,7 +59,9 @@ Game.Level1.prototype = {
         travelThroughDimension(username);
     },
     getCoin: function(){
-        map.putTile(-1,layer.getTileX(player.x),layer.getTileY(player.y));
+        for(one in playerManager){
+            map.putTile(-1, layer.getTileX(playerManager[one].x), layer.getTileY(playerManager[one].y));
+        }
     }
 }
 function loadPlayerManager(){

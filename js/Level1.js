@@ -25,8 +25,8 @@ Game.Level1.prototype = {
         layer.resizeWorld();
         map.setCollisionBetween(0,300);
 
-        coins = game.add.group();
-        coins.enableB
+        /*coins = game.add.group();
+        coins.enableB*/
         //for coin layer
 
 

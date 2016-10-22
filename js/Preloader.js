@@ -17,10 +17,11 @@ Game.Preloader.prototype = {
         this.load.tilemap('map','img/tile.csv');
         this.load.image('tileset', 'img/tile.jpg'); 
         //Coin layer added
-        this.load.tilemap('coinMap', 'img/coin_Tile_Layer3.csv');
-        this.load.image('coins','img/coin.jpg');
+        /*this.load.tilemap('coinMap', 'img/coin_Tile_Layer3.csv');*/
         
+        /*game.load.spritesheet('coin', 'img/coin.jpg',10,10);*/
         this.load.spritesheet('player','img/p1.png',46,46);
+        /*this.load.image('coin','img/coin.png');*/
         this.load.image('pacPackage', 'img/pacManPackage.png');
         
         

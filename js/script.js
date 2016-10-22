@@ -12,7 +12,7 @@ window.onload = function(){
 		    this.currentTime = 0;
 		    this.play();
 		}, false);
-		bgm.play();
+		/*bgm.play();*/
 		showLoginScreen(true);
 	    //Connect to socket io (backend)
 	    establishConnection();

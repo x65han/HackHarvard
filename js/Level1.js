@@ -23,7 +23,7 @@ Game.Level1.prototype = {
         layer = map.createLayer(0);
         layer.resizeWorld();
         map.setCollisionBetween(0,300);
-        
+
         //for coin layer
         coinLayer1 = this.add.tilemap('coinMap',10,10);
         coinLayer1.addTilesetImage('coins');
@@ -31,9 +31,9 @@ Game.Level1.prototype = {
         coinLayer2.resizeWorld();
         //this is suppose to remove the coins
         coinLayer1.setTileIndexCallback(998,this.getCoin,this);
-        
-        
-        
+
+
+
         //sets the location of the player
         player = this.add.sprite(0,250,'player');
         player.animations.add('horizontalRun',[0,2],4,true);
@@ -67,42 +67,19 @@ Game.Level1.prototype = {
     update: function(){
         this.physics.arcade.collide(player,layer);
 
+        if(player.body.speed != 0)console.log(Math.round(player.body.x) + " " + Math.round(player.body.y) + " " + Math.round(player.body.speed) + " " + cache);
+        else  player.animations.play('horizontal');
         if(controls.right.isDown){
-            player.animations.play('horizontalRun');
-            player.scale.setTo(0.4,0.4);
-            if(playerSpeed < 0){
-                playerSpeed *= -1;
-            }
-            player.body.velocity.x = playerSpeed;
-            player.body.velocity.y = 0;
+            move("right");
         }
         if(controls.left.isDown){
-            player.animations.play('horizontalRun');
-            player.scale.setTo(-0.4,0.4);
-            if(playerSpeed > 0){
-                playerSpeed *= -1;
-            }
-            player.body.velocity.x = playerSpeed;
-            player.body.velocity.y = 0;
-
+            move("left");
         }
         if(controls.up.isDown){
-            player.animations.play('verticalRun');
-            player.scale.setTo(0.4, 0.4);
-            if(playerSpeed > 0){
-                playerSpeed *= -1;
-            }
-            player.body.velocity.y = playerSpeed;
-            player.body.velocity.x = 0;
+            move("up");
         }
         if(controls.down.isDown){
-            player.animations.play('verticalRun');
-            player.scale.setTo(0.4, -0.4);
-            if(playerSpeed < 0){
-                playerSpeed *= -1;
-            }
-            player.body.velocity.y = playerSpeed;
-            player.body.velocity.x = 0;
+            move("down");
         }
         //If up button is pressed and player is touching the ground and if the timer is 0
         /*if((controls.up.isDown) && (player.body.onFloor() || player.body.touching.down) && this.time.now > jumpTimer){
@@ -122,6 +99,37 @@ Game.Level1.prototype = {
     }
 
 }
+
+function move(input){
+    cache = input = input.toLowerCase();
+    switch(input){
+        case "up":
+            player.animations.play('verticalRun');
+            player.scale.setTo(0.4, 0.4);
+            player.body.velocity.y = -1 * Math.abs(playerSpeed);
+            player.body.velocity.x = 0;
+            break;
+        case "down":
+            player.animations.play('verticalRun');
+            player.scale.setTo(0.4, -0.4);
+            player.body.velocity.y = Math.abs(playerSpeed);
+            player.body.velocity.x = 0;
+            break;
+        case "left":
+            player.animations.play('horizontalRun');
+            player.scale.setTo(-0.4,0.4);
+            player.body.velocity.x = -1 * Math.abs(playerSpeed);
+            player.body.velocity.y = 0;
+            break;
+        case "right":
+            player.animations.play('horizontalRun');
+            player.scale.setTo(0.4,0.4);
+            player.body.velocity.x = Math.abs(playerSpeed);
+            player.body.velocity.y = 0;
+            break;
+    }
+}
+
 //checking if they are overlapping
 function checkOverlap(spriteA, spriteB){
     var boundsA = spriteA.getBounds();

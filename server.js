@@ -39,12 +39,12 @@ io.on('connection', function(socket){
 		socket.px = data.x;
 		socket.py = data.y;
 		io.to(socket.room).emit("receive data", data);
-		console.log("transferring data -> ");
+		// console.log("transferring data -> ");
 		if(data.score != undefined){
 			ref.child(socket.room).child(socket.nickname).set(data.score);
 			socket.score = data.score;
 		}
-		console.log(data);
+		if(data.score != undefined)console.log(data.score);
 	});
 	socket.on('join room', function(roomRequest, response){
 		var virgin = true;

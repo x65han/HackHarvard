@@ -82,6 +82,11 @@ function setScore(userIndex,target){
 		$(name).html("&gt;&gt;" + $(name).html());
 	}
 	orderScoreBoard();
+	if(score >= 1000) {
+		game.pause = true;
+		$(".score-board").addClass('report');
+		$('.score').css("position","relative");
+	}
  }
 function orderScoreBoard(){
 	//re-order score-board

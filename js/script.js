@@ -12,7 +12,7 @@ window.onload = function(){
 		    this.currentTime = 0;
 		    this.play();
 		}, false);
-		/*bgm.play();*/
+		bgm.play();
 		showLoginScreen(true);
 	    //Connect to socket io (backend)
 	    establishConnection();
@@ -22,12 +22,12 @@ window.onload = function(){
 	        if(key == 13 && !userLoggedIn) $('.login-button').trigger( "click" );
 			if(!userLoggedIn && key != 13)$(".login-instruction").html('');
 	    }
-			//Game Pre-boot
-			game = new Phaser.Game(1000,500, Phaser.CANVAS,'');
-			game.state.add('Boot', Game.Boot);
-			game.state.add('Preloader', Game.Preloader);
-			game.state.add('MainMenu', Game.MainMenu);
-			game.state.add('Level1', Game.Level1);
+		//Game Pre-boot
+		game = new Phaser.Game(1000,500, Phaser.CANVAS,'');
+		game.state.add('Boot', Game.Boot);
+		game.state.add('Preloader', Game.Preloader);
+		game.state.add('MainMenu', Game.MainMenu);
+		game.state.add('Level1', Game.Level1);
 };
 
 //Monitor

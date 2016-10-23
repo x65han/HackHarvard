@@ -74,14 +74,15 @@ function setScore(userIndex,target){
 	var name = "#score-" + userIndex, adjustment;
 	var number;
 	var current = parseInt($(name).attr("title"));
-	$(name).html(userIndex + " : " + target);$(name).attr("title", target);orderScoreBoard();return;
+	$(name).html(userIndex + " : " + target);
+	$(name).attr("title", target);
+	orderScoreBoard();
 	if(current == target) return;
-	if($(name).html().toString().includes("&") == false && username == userIndex)
-		$(name).html("&gt;&gt;" + $(name).html());
 	score = target;
 	if(username == userIndex){
 		scoreChanged = true;
 		playCoinAudio();
+		$(name).html("&gt;&gt;" + $(name).html());
 	}
 	orderScoreBoard();
  }

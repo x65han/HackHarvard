@@ -72,12 +72,9 @@ function addScore(userIndex, number){
 function setScore(userIndex,target){
 	// UI handler
 	var name = "#score-" + userIndex, adjustment;
-	var number;
 	var current = parseInt($(name).attr("title"));
 	$(name).html(userIndex + " : " + target);
 	$(name).attr("title", target);
-	orderScoreBoard();
-	if(current == target) return;
 	score = target;
 	if(username == userIndex){
 		scoreChanged = true;
@@ -87,20 +84,21 @@ function setScore(userIndex,target){
 	orderScoreBoard();
  }
 function orderScoreBoard(){
+	console.log("ordering");
 	//re-order score-board
-		var score_array_raw = document.getElementsByClassName("score");
-		var score_array = [];
-		for(var x = 0;x < score_array_raw.length;x++)score_array.push(score_array_raw[x]);
-		const chances = score_array.length;
-		for(var o = 0; o < chances;o++){
-			var max = 0,max_index = 0;
-			for(var i = 0; i < score_array.length;i++){
-				if(parseInt(score_array[i].title) >= max){
-					max = parseInt(score_array[i].title);
-					max_index = i;
-				}
+	var score_array_raw = document.getElementsByClassName("score");
+	var score_array = [];
+	for(var x = 0;x < score_array_raw.length;x++)score_array.push(score_array_raw[x]);
+	const chances = score_array.length;
+	for(var o = 0; o < chances;o++){
+		var max = 0,max_index = 0;
+		for(var i = 0; i < score_array.length;i++){
+			if(parseInt(score_array[i].title) >= max){
+				max = parseInt(score_array[i].title);
+				max_index = i;
 			}
-			score_array[max_index].style.transform = "translateY(" + o * 30 + "px)";
-			score_array.splice(max_index,1);
 		}
+		score_array[max_index].style.transform = "translateY(" + o * 30 + "px)";
+		score_array.splice(max_index,1);
+	}
 }

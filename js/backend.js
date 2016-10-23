@@ -19,6 +19,7 @@ function establishConnection(){
             if(engine != undefined) loadPlayerManager();
         }
         loadScoreBoard();
+        orderScoreBoard();
         console.log(playerList);
     });
     socket.on('receive data', function(data){

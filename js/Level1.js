@@ -57,9 +57,10 @@ Game.Level1.prototype = {
             this.physics.arcade.collide(playerManager[one],layer);
 
         }
-
-        this.physics.arcade.overlap(playerManager[username], this.dots, this.getCoinSmall, null, this);
-        this.physics.arcade.overlap(playerManager[username], this.dots2, this.getCoinBig, null, this);
+        for(var one in playerManager){
+            this.physics.arcade.overlap(playerManager[one], this.dots, this.getCoinSmall, null, this);
+            this.physics.arcade.overlap(playerManager[one], this.dots2, this.getCoinBig, null, this);
+        }
 
         //User control
         if(controls.right.isDown) move("right", username);
@@ -77,7 +78,7 @@ Game.Level1.prototype = {
 setInterval(function(){
     if(username == undefined || playerManager[username] == undefined) return;
     if(playerManager[username].body.speed != 0) share();
-}, 1);
+}, 10);
 function loadPlayerManager(){
     for(var one in playerManager)   playerManager[one].kill();
     playerManager = {};

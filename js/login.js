@@ -82,7 +82,7 @@ function setScore(userIndex,target){
 		$(name).html("&gt;&gt;" + $(name).html());
 	}
 	orderScoreBoard();
-	if(score >= 10) {
+	if(score >= 1000) {
 		game.paused = true;
 		$(".score-board").addClass('report');
 		$(".score").removeClass('rainbow');

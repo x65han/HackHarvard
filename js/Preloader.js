@@ -16,7 +16,8 @@ Game.Preloader.prototype = {
         //Load all assets
         this.load.tilemap('map','img/tile.csv');
         this.load.image('tileset', 'img/colors.png'); 
-       
+        this.load.image('dot', 'img/coin.jpg');
+        this.load.image('dot2', 'img/RainbowCoin.png');
         //Coin layer added
         /*this.load.tilemap('coinMap', 'img/coin_Tile_Layer3.csv');*/
         

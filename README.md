@@ -1,3 +1,5 @@
+#Check it out at: www.pacmen.online
+Build during Hack-Harvard 2016
 #Inspiration
 Since the hackathon's theme is "hack the past", we wanted to bring something fun, somethings interactive and something that gets people together. Therefore, we brought addiction from the past. Let me introduce you -> Multiplayer PacMen
 #What it does

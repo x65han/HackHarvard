@@ -74,7 +74,7 @@ function setScore(userIndex,target){
 	var name = "#score-" + userIndex, adjustment;
 	var number, current = parseInt($(name).attr("title"));
 	if(username != userIndex){
-		$(name).attr("title", target);orderScoreBoard();return;
+		$(name).html(userIndex + " : " + target);$(name).attr("title", target);orderScoreBoard();return;
 	}
 	if(current == target) return;
 	else{

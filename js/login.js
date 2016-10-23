@@ -84,7 +84,6 @@ function setScore(userIndex,target){
 	orderScoreBoard();
  }
 function orderScoreBoard(){
-	console.log("ordering");
 	//re-order score-board
 	var score_array_raw = document.getElementsByClassName("score");
 	var score_array = [];

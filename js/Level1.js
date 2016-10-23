@@ -40,19 +40,16 @@ Game.Level1.prototype = {
         };
     },
     getCoinSmall: function(targett, dot){
-        console.log("small >>" + targett.username);
         dot.kill();dot.destroy();
         if(username == targett.username)addScore(username, 10);
     },
     getCoinBig: function(targett, dot){
-        console.log("big >>" + targett.username);
         dot.kill();dot.destroy();
         if(username == targett.username)addScore(username, 20);
     },
     fight: function(owner, guest){
         pcbol = true;
         if(pcp == true && score != parseInt($('#score-'+guest.username).attr("title"))){
-            console.log("fucked");
             if(score > parseInt($('#score-'+guest.username).attr("title")))
                 addScore(username, 100);
         }

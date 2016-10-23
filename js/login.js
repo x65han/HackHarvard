@@ -72,38 +72,21 @@ function addScore(userIndex, number){
 function setScore(userIndex,target){
 	// UI handler
 	var name = "#score-" + userIndex, adjustment;
-	var number, current = parseInt($(name).attr("title"));
-	if(username != userIndex){
-		$(name).html(userIndex + " : " + target);$(name).attr("title", target);orderScoreBoard();return;
-	}
+	var number;
+	var current = parseInt($(name).attr("title"));
+	$(name).html(userIndex + " : " + target);$(name).attr("title", target);orderScoreBoard();return;
 	if(current == target) return;
-	else{
-		number = Math.abs(target - current);
-		if(current < target)adjustment = 1;
-		else if(current > target)adjustment = -1;
-	}
-	for(var x = 0; x < number;x++){
-		setTimeout(function(){
-			var value = parseInt($(name).attr("title")) + adjustment;
-			$(name).html(userIndex + " : " + value);
-			$(name).attr("title", value);
-		}, (100 / number * x));
-	}
-	setTimeout(function(){
-		if($(name).html().toString().includes("&") == false && username == userIndex)
-			$(name).html("&gt;&gt;" + $(name).html());
-	}, 100);
-	//Update and Share
+	if($(name).html().toString().includes("&") == false && username == userIndex)
+		$(name).html("&gt;&gt;" + $(name).html());
 	score = target;
-	scoreChanged = true;
 	if(username == userIndex){
+		scoreChanged = true;
 		playCoinAudio();
 	}
 	orderScoreBoard();
  }
 function orderScoreBoard(){
 	//re-order score-board
-	setTimeout(function(){
 		var score_array_raw = document.getElementsByClassName("score");
 		var score_array = [];
 		for(var x = 0;x < score_array_raw.length;x++)score_array.push(score_array_raw[x]);
@@ -119,5 +102,4 @@ function orderScoreBoard(){
 			score_array[max_index].style.transform = "translateY(" + o * 30 + "px)";
 			score_array.splice(max_index,1);
 		}
-	}, 101);
 }

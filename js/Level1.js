@@ -30,26 +30,22 @@ Game.Level1.prototype = {
         map.createFromTiles(66,-1,'dot',this.layer, this.dots);
         map.createFromTiles(63,-1,'dot2',this.layer,this.dots2);
 
-        //createFromTiles(tiles, replacements, key, layer, group, properties)
-        /*map.setTileIndexCallback(66,this.getCoin, this);
-        map.setTileIndexCallback(63,this.getCoin, this);*/
-        /*--------------------------------------------*/
         loadPlayerManager();
 
         controls = {
             up: this.input.keyboard.addKey(Phaser.Keyboard.W),
             down: this.input.keyboard.addKey(Phaser.Keyboard.S),
-            right: this.input.keyboard.addKey(Phaser.Keyboard.D),
             left: this.input.keyboard.addKey(Phaser.Keyboard.A),
+            right: this.input.keyboard.addKey(Phaser.Keyboard.D)
         };
     },
     getCoinSmall: function(targett, dot){
         dot.kill();dot.destroy();
-        addScore(username, 10);
+        addScore(targett.username, 10);
     },
     getCoinBig: function(targett, dot){
         dot.kill();dot.destroy();
-        addScore(username, 20);
+        addScore(targett.username, 20);
     },
     update: function(){
         //Collision with wall
@@ -92,6 +88,7 @@ function loadPlayerManager(){
         temp.anchor.setTo(0.5,0.5);
         temp.scale.setTo(0.4, 0.4);
         temp.cache = "right";
+        temp.username = one;
         engine.physics.arcade.enable(temp);
         temp.body.collideWorldBounds = true;
         temp.body.velocity.x = 0;
@@ -114,7 +111,7 @@ function travelThroughDimension(target){
 function idleAnimation(target){
     //When Player is idle
     if(playerManager[target].body.speed == 0){
-        switch(cache){
+        switch(playerManager[target].cache){
             case "up":
                 playerManager[target].animations.play("vertical");
                 playerManager[target].scale.setTo(0.4, 0.4);

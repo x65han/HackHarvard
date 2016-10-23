@@ -82,10 +82,11 @@ function setScore(userIndex,target){
 		$(name).html("&gt;&gt;" + $(name).html());
 	}
 	orderScoreBoard();
-	if(score >= 1000) {
-		game.pause = true;
+	if(score >= 10) {
+		game.paused = true;
 		$(".score-board").addClass('report');
-		$('.score').css("position","relative");
+		$(".score").removeClass('rainbow');
+		$(".score").addClass('reportsm');
 	}
  }
 function orderScoreBoard(){

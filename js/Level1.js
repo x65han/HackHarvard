@@ -11,6 +11,7 @@ Game.Level1.prototype = {
         engine = this;
         //This sets the background color
         this.stage.backgroundColor = '#120309';
+        this.stage.disableVisibilityChange = true;
         $("body").css("background-color","#120309");
         setTimeout(function(){$("body").css("padding-top", ((window.innerHeight - $('canvas').height()) / 2) + "px");}, 400);
        /* //This line sets the gravity
@@ -21,24 +22,20 @@ Game.Level1.prototype = {
         layer = map.createLayer(0);
         layer.resizeWorld();
         map.setCollisionBetween(0,15);
-        
-        
-        
+
         /*Testing out getting coins------------------*/
         //createFromTiles(tiles, replacements, key, layer, group, properties)
         this.dots = this.add.physicsGroup();
+        this.dots2 = this.add.physicsGroup();
         map.createFromTiles(66,-1,'dot',this.layer, this.dots);
-        map.createFromTiles(63,-1,'dot2',this.layer,this.dots);
-        
+        map.createFromTiles(63,-1,'dot2',this.layer,this.dots2);
+
         //createFromTiles(tiles, replacements, key, layer, group, properties)
         /*map.setTileIndexCallback(66,this.getCoin, this);
         map.setTileIndexCallback(63,this.getCoin, this);*/
         /*--------------------------------------------*/
-        
-        
-        
         loadPlayerManager();
-        
+
         controls = {
             up: this.input.keyboard.addKey(Phaser.Keyboard.W),
             down: this.input.keyboard.addKey(Phaser.Keyboard.S),
@@ -46,24 +43,24 @@ Game.Level1.prototype = {
             left: this.input.keyboard.addKey(Phaser.Keyboard.A),
         };
     },
-    getCoin: function(targett, dot){
-        
-        // Coin & Player collision
-        /*for(one in playerManager)*/
-            dot.kill();
-            dot.destroy();
-            /*map.putTile(-1, layer.getTileX(playerManager[one].x), layer.getTileY(playerManager[one].y));*/
+    getCoinSmall: function(targett, dot){
+        dot.kill();dot.destroy();
         addScore(username, 10);
+    },
+    getCoinBig: function(targett, dot){
+        dot.kill();dot.destroy();
+        addScore(username, 20);
     },
     update: function(){
         //Collision with wall
         for(one in playerManager){
             this.physics.arcade.collide(playerManager[one],layer);
-            
+
         }
-        
-        this.physics.arcade.overlap(playerManager[username], this.dots, this.getCoin, null, this); 
-        
+
+        this.physics.arcade.overlap(playerManager[username], this.dots, this.getCoinSmall, null, this);
+        this.physics.arcade.overlap(playerManager[username], this.dots2, this.getCoinBig, null, this);
+
         //User control
         if(controls.right.isDown) move("right", username);
         if(controls.left.isDown)  move("left",  username);
@@ -75,7 +72,7 @@ Game.Level1.prototype = {
         // Travel through Dimension
         for(var one in playerManager)travelThroughDimension(one);
     },
-    
+
 }
 setInterval(function(){
     if(username == undefined || playerManager[username] == undefined) return;

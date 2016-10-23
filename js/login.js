@@ -84,12 +84,12 @@ function setScore(userIndex,target){
 			var value = parseInt($(name).attr("title")) + adjustment;
 			$(name).html(userIndex + " : " + value);
 			$(name).attr("title", value);
-		}, (500 / number * x));
+		}, (100 / number * x));
 	}
 	setTimeout(function(){
 		if($(name).html().toString().includes("&") == false && username == userIndex)
 			$(name).html("&gt;&gt;" + $(name).html());
-	}, 500);
+	}, 100);
 	//Update and Share
 	score = target;
 	scoreChanged = true;
@@ -116,5 +116,5 @@ function orderScoreBoard(){
 			score_array[max_index].style.transform = "translateY(" + o * 30 + "px)";
 			score_array.splice(max_index,1);
 		}
-	}, 501);
+	}, 101);
 }

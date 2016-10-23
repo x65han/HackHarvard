@@ -40,36 +40,36 @@ Game.Level1.prototype = {
         };
     },
     getCoinSmall: function(targett, dot){
+        console.log("small >>" + targett.username);
         dot.kill();dot.destroy();
-        addScore(targett.username, 10);
+        if(username == targett.username)addScore(username, 10);
     },
     getCoinBig: function(targett, dot){
+        console.log("big >>" + targett.username);
         dot.kill();dot.destroy();
-        addScore(targett.username, 20);
+        if(username == targett.username)addScore(username, 20);
     },
     update: function(){
         //Collision with wall
-        for(one in playerManager){
+        for(one in playerManager)
             this.physics.arcade.collide(playerManager[one],layer);
 
-        }
         for(var one in playerManager){
             this.physics.arcade.overlap(playerManager[one], this.dots, this.getCoinSmall, null, this);
             this.physics.arcade.overlap(playerManager[one], this.dots2, this.getCoinBig, null, this);
         }
 
         //User control
-        if(controls.right.isDown) move("right", username);
-        if(controls.left.isDown)  move("left",  username);
         if(controls.up.isDown)    move("up",    username);
         if(controls.down.isDown)  move("down",  username);
+        if(controls.left.isDown)  move("left",  username);
+        if(controls.right.isDown) move("right", username);
 
         // When Player is idleAnimation
         for(var one in playerManager)idleAnimation(one);
         // Travel through Dimension
         for(var one in playerManager)travelThroughDimension(one);
-    },
-
+    }
 }
 setInterval(function(){
     if(username == undefined || playerManager[username] == undefined) return;

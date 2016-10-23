@@ -32,6 +32,7 @@ window.onload = function(){
 
 //Monitor
 setInterval(function(){
+		if(userLoggedIn || $('.roomname').val() == undefined)	return;
 		if(!userLoggedIn && $('.roomname').val().length > 1 && $('.username').val().length > 1){
 				$(".login-button").css("opacity","1");
 		}

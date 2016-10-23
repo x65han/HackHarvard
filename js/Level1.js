@@ -8,30 +8,27 @@ var playerManager = {};
 
 Game.Level1.prototype = {
     create: function(game){
+        // make Gmae.level1 publicly accessible to all files
         engine = this;
-        //This sets the background color
+        // set up the gaming screen
         this.stage.backgroundColor = '#120309';
         this.stage.disableVisibilityChange = true;
         $("body").css("background-color","#120309");
         setTimeout(function(){$("body").css("padding-top", ((window.innerHeight - $('canvas').height()) / 2) + "px");}, 400);
-       /* //This line sets the gravity
-        this.physics.arcade.gravity.y = 1400;*/
-        //Sets the foundations of the map
+        // load map
         map = this.add.tilemap('map', 10,10);
         map.addTilesetImage('tileset');
         layer = map.createLayer(0);
         layer.resizeWorld();
         map.setCollision(1722);
-
-        /*Testing out getting coins------------------*/
-        //createFromTiles(tiles, replacements, key, layer, group, properties)
+        // load coins
         this.dots = this.add.physicsGroup();
         this.dots2 = this.add.physicsGroup();
         map.createFromTiles(66,-1,'dot',this.layer, this.dots);
         map.createFromTiles(63,-1,'dot2',this.layer,this.dots2);
-
+        // publicize players to playerManager to be publically accessible
         loadPlayerManager();
-
+        // declare controls
         controls = {
             up: this.input.keyboard.addKey(Phaser.Keyboard.W),
             down: this.input.keyboard.addKey(Phaser.Keyboard.S),
@@ -56,10 +53,10 @@ Game.Level1.prototype = {
         pcp = false;
     },
     update: function(){
-        //Collision with wall
+        // Collision with wall
         for(one in playerManager)
             this.physics.arcade.collide(playerManager[one],layer);
-
+        // Coliision with coins and other players
         for(var one in playerManager){
             this.physics.arcade.overlap(playerManager[one], this.dots, this.getCoinSmall, null, this);
             this.physics.arcade.overlap(playerManager[one], this.dots2, this.getCoinBig, null, this);
@@ -69,23 +66,22 @@ Game.Level1.prototype = {
                 if(pcbol == false) pcp = true;
             }
         }
-
         //User control
         if(controls.up.isDown)    move("up",    username);
         if(controls.down.isDown)  move("down",  username);
         if(controls.left.isDown)  move("left",  username);
         if(controls.right.isDown) move("right", username);
-
         // When Player is idleAnimation
         for(var one in playerManager)idleAnimation(one);
         // Travel through Dimension
         for(var one in playerManager)travelThroughDimension(one);
     }
 }
-setInterval(function(){
+setInterval(function(){// sharing interval heart beat
     if(username == undefined || playerManager[username] == undefined) return;
     if(playerManager[username].body.speed != 0) share();
 }, 10);
+// game utility functions
 function loadPlayerManager(){
     for(var one in playerManager)   playerManager[one].kill();
     playerManager = {};

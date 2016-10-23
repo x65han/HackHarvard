@@ -1,6 +1,6 @@
 Game.Level1 = function(game){};
 var enemy1,enemy2,enemy3,enemy4;
-var map, layer, player;
+var map, layer, player, pcp = true, pcbol = false;
 var drag, button, cache = "right";
 var controls = {};
 var playerSpeed = 100;
@@ -21,7 +21,7 @@ Game.Level1.prototype = {
         map.addTilesetImage('tileset');
         layer = map.createLayer(0);
         layer.resizeWorld();
-        map.setCollisionBetween(0,15);
+        map.setCollision(1722);
 
         /*Testing out getting coins------------------*/
         //createFromTiles(tiles, replacements, key, layer, group, properties)
@@ -49,6 +49,15 @@ Game.Level1.prototype = {
         dot.kill();dot.destroy();
         if(username == targett.username)addScore(username, 20);
     },
+    fight: function(owner, guest){
+        pcbol = true;
+        if(pcp == true && score != parseInt($('#score-'+guest.username).attr("title"))){
+            console.log("fucked");
+            if(score > parseInt($('#score-'+guest.username).attr("title")))
+                addScore(username, 100);
+        }
+        pcp = false;
+    },
     update: function(){
         //Collision with wall
         for(one in playerManager)
@@ -57,6 +66,11 @@ Game.Level1.prototype = {
         for(var one in playerManager){
             this.physics.arcade.overlap(playerManager[one], this.dots, this.getCoinSmall, null, this);
             this.physics.arcade.overlap(playerManager[one], this.dots2, this.getCoinBig, null, this);
+            pcbol = false;
+            if(username != one){
+                this.physics.arcade.overlap(playerManager[username], playerManager[one], this.fight, null, this);
+                if(pcbol == false) pcp = true;
+            }
         }
 
         //User control

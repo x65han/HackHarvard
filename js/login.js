@@ -73,6 +73,9 @@ function setScore(userIndex,target){
 	// UI handler
 	var name = "#score-" + userIndex, adjustment;
 	var number, current = parseInt($(name).attr("title"));
+	if(username != userIndex){
+		$(name).attr("title", target);return
+	}
 	if(current == target) return;
 	else{
 		number = Math.abs(target - current);

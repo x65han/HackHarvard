@@ -1,6 +1,6 @@
 Game.Level1 = function(game){};
-var enemy1,enemy2,enemy3,enemy4;
-var map, layer, player, pcp = true, pcbol = false;
+var map, layer, player, cursors;
+var pcp = true, pcbol = false;
 var drag, button, cache = "right";
 var controls = {};
 var playerSpeed = 100;
@@ -29,6 +29,7 @@ Game.Level1.prototype = {
         // publicize players to playerManager to be publically accessible
         loadPlayerManager();
         // declare controls
+        cursors = game.input.keyboard.createCursorKeys();
         controls = {
             up: this.input.keyboard.addKey(Phaser.Keyboard.W),
             down: this.input.keyboard.addKey(Phaser.Keyboard.S),
@@ -67,10 +68,10 @@ Game.Level1.prototype = {
             }
         }
         //User control
-        if(controls.up.isDown)    move("up",    username);
-        if(controls.down.isDown)  move("down",  username);
-        if(controls.left.isDown)  move("left",  username);
-        if(controls.right.isDown) move("right", username);
+        if(controls.up.isDown || cursors.up.isDown)    move("up",    username);
+        if(controls.down.isDown || cursors.down.isDown)  move("down",  username);
+        if(controls.left.isDown || cursors.left.isDown)  move("left",  username);
+        if(controls.right.isDown || cursors.right.isDown) move("right", username);
         // When Player is idleAnimation
         for(var one in playerManager)idleAnimation(one);
         // Travel through Dimension

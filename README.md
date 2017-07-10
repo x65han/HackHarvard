@@ -1,3 +1,4 @@
+![Game Preview](https://github.com/x65han/HackHarvard/raw/master/gif.gif)
 # Built With
 `javascript`, `phaser.js`, `css`, `jquery`, `socket.io`, `html5`, `node.js`, `canvas`, `firebase`
 
@@ -6,8 +7,6 @@
 
 # What it does
 The game follows the concept of the original Pacman, but instead of Player Vs Ghosts, it's Player Vs Players. The winner will be the first person who earns 100 points.
-
-![Game Preview](https://github.com/x65han/HackHarvard/raw/master/gif.gif)
 
 ## Please use keys: "W", "A", "S" & "D" to navigate.
 

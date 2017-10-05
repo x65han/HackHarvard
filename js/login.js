@@ -79,7 +79,7 @@ function setScore(userIndex,target){
 	if(username == userIndex){
 		scoreChanged = true;
 		playCoinAudio();
-		$(name).html("&gt;&gt;" + $(name).html());
+		$(name).html("&gt;&gt; " + $(name).html());
 	}
 	orderScoreBoard();
 	if(score >= 1000) {
